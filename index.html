@@ -3,19 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    
+    <!-- PENGATURAN FAVICON -->
+    <link rel="icon" type="image/png" href="https://z-cdn-media.chatglm.cn/files/18ab3fc6-ed5b-4a69-9ba0-50961b04299b.png?auth_key=1885560969-b6cad73974a94bfe8cbf7232c8edbc6a-0-3e76e291785f2463ff750c0056cd9a57">
+    <link rel="apple-touch-icon" href="https://z-cdn-media.chatglm.cn/files/18ab3fc6-ed5b-4a69-9ba0-50961b04299b.png?auth_key=1885560969-b6cad73974a94bfe8cbf7232c8edbc6a-0-3e76e291785f2463ff750c0056cd9a57">
+    <link rel="shortcut icon" href="https://z-cdn-media.chatglm.cn/files/18ab3fc6-ed5b-4a69-9ba0-50961b04299b.png?auth_key=1885560969-b6cad73974a94bfe8cbf7232c8edbc6a-0-3e76e291785f2463ff750c0056cd9a57">
+    
     <style>
         html, body { background-color: #0a0a0a; color: #ffffff; margin: 0; padding: 0; }
         :root[data-theme="light"] html, :root[data-theme="light"] body { background-color: #f5f5f7; color: #18181b; }
         .modal-hidden { display: none !important; }
     </style>
     
-    <meta name="description" content="Karya Abadi AI - Direktori AI terlengkap dengan logo asli, informasi detail fungsi & link AI. Forum diskusi pengguna dan kolaborasi project AI dengan WhatsApp.">
+    <!-- DESKRIPSI WEBSITE DIUBAH MENJADI LEBIH PROFESIONAL -->
+    <meta name="description" content="Karya Abadi AI - Direktori AI terlengkap dengan tampilan modern, informasi detail fungsi & link AI. Forum diskusi pengguna dan kolaborasi project AI dengan WhatsApp.">
     <meta name="keywords" content="AI, Artificial Intelligence, direktori AI, tools AI, forum AI, kolaborasi project AI, Karya Abadi AI">
     <meta name="author" content="Karya Abadi AI">
     <meta name="robots" content="index, follow">
     
     <title>KARYA ABADI AI</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.simpleicons.org">
@@ -153,8 +160,9 @@
                     <h1 class="font-display text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight mb-6" style="color: var(--text-primary)">
                         Jelajahi Dunia<br><span class="red-gradient text-glow">Artificial Intelligence</span><br>Tanpa Batas
                     </h1>
+                    <!-- KALIMAT DI BAWAH INI SUDAH DIPERBAIK MENJADI LEBIH PROFESIONAL -->
                     <p class="text-base sm:text-lg mb-8 max-w-xl mx-auto lg:mx-auto text-justify" style="color: var(--text-secondary)">
-                        Karya Abadi AI menyajikan direktori AI terlengkap dengan logo asli, informasi detail fungsi, kegunaan, dan link akses. Bergabunglah dengan forum diskusi dan kolaborasi project AI bersama ribuan pengguna.
+                        Karya Abadi AI menyajikan direktori teknologi AI terlengkap dengan tampilan modern, informasi detail fungsi, kegunaan, dan akses langsung ke platformnya. Bergabunglah dengan forum diskusi dan kolaborasi project AI bersama ribuan pengguna.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
                         <a href="#direktori" class="btn-shine inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-base red-glow text-white"><i class="fas fa-compass"></i> Jelajahi Direktori AI</a>
@@ -199,7 +207,7 @@
             <div class="text-center mb-8 lg:mb-12 fade-in">
                 <div class="badge mb-4" style="background: rgba(220,38,38,0.1); border:1px solid rgba(220,38,38,0.3); color: var(--red-primary)"><i class="fas fa-database text-xs"></i> DIREKTORI LENGKAP</div>
                 <h2 class="font-display text-2xl sm:text-4xl lg:text-5xl font-extrabold mb-4" style="color: var(--text-primary)">Koleksi <span class="red-gradient">AI Tools</span> Terlengkap</h2>
-                <p class="max-w-2xl mx-auto text-sm sm:text-base text-justify" style="color: var(--text-secondary)">Temukan berbagai tools AI terbaru dengan logo asli, informasi detail fungsi, kegunaan, dan link akses langsung ke platformnya.</p>
+                <p class="max-w-2xl mx-auto text-sm sm:text-base text-justify" style="color: var(--text-secondary)">Temukan berbagai tools AI terbaru dengan tampilan modern, informasi detail fungsi, kegunaan, dan link akses langsung ke platformnya.</p>
             </div>
             <div class="mb-8 lg:mb-10 fade-in">
                 <div class="max-w-2xl mx-auto mb-6">
@@ -219,7 +227,6 @@
                     <button class="filter-pill px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium border" style="border-color: var(--border-color); color: var(--text-primary)" data-category="marketing"><i class="fas fa-bullhorn mr-1"></i> Marketing</button>
                 </div>
             </div>
-            <!-- 2 KOLOM DI HP, 3 DI TABLET, 4 DI PC -->
             <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6" id="aiGrid"></div>
             <div id="noResults" class="modal-hidden text-center py-16">
                 <i class="fas fa-search text-6xl mb-4" style="color: var(--text-muted)"></i>
@@ -517,7 +524,6 @@
             });
             if (filtered.length === 0) { grid.innerHTML = ''; noResults.classList.remove('modal-hidden'); return; }
             noResults.classList.add('modal-hidden');
-            // Responsive Card Padding
             grid.innerHTML = filtered.map(function(ai) {
                 var idx = aiDatabase.indexOf(ai);
                 return '<div class="ai-card rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer group flex flex-col h-full" onclick="showAIDetail(' + idx + ')">' +
