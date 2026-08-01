@@ -15,7 +15,7 @@
     <meta name="robots" content="index, follow">
     
     <title>KARYA ABADI AI</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.simpleicons.org">
@@ -420,11 +420,28 @@
         // ============================================
         // KONFIGURASI JSONBIN.IO
         // ============================================
-        const JSONBIN_API_KEY = "$2a$10$aAPGDA7uCKUzxzxhpio04eOULlzuoAStHRM1FNHf0Y.3J5FEd0qUS";
+        // Menggunakan X-Master-Key agar memiliki akses penuh tulis/hapus ke server
+        const JSONBIN_API_KEY = "$2a$10$lpMusouSod0P8C7VHllNcepvr7.Q3jrS61xkyRbXhdhK5dboyfxLa"; 
         const JSONBIN_BIN_ID = "6a6dbfbada38895dfeabf16f";
         
         let dbData = { chats: [], projects: [] };
+        let isSaving = false; // Lock agar tidak tabrakan dengan auto-refresh
         
+        // SISTEM BACKUP LOKAL (Agar tidak hilang saat refresh)
+        const LOCAL_CACHE_KEY = 'karyaabadi_cache';
+        try {
+            let cache = localStorage.getItem(LOCAL_CACHE_KEY);
+            if (cache) {
+                dbData = JSON.parse(cache);
+            }
+        } catch(e) {}
+        
+        function saveLocalCache() {
+            try {
+                localStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify(dbData));
+            } catch(e) {}
+        }
+
         // SISTEM ID PENGGUNA
         const USER_ID_KEY = 'karyaabadi_user_id';
         let currentUserId = localStorage.getItem(USER_ID_KEY);
@@ -454,7 +471,7 @@
             about: `<p class="mb-3">Karya Abadi AI adalah platform yang dedikasikan untuk menyediakan informasi lengkap mengenai tools Artificial Intelligence (AI) di Indonesia. Kami bertujuan menjadi jembatan antara pengguna AI, dari pemula hingga profesional, dengan koleksi direktori AI terlengkap, forum diskusi, serta ruang kolaborasi project.</p><p>Visi kami adalah memberdayakan masyarakat Indonesia untuk berevolusi bersama AI, memanfaatkan teknologi untuk menciptakan karya abadi.</p>`,
             contact: `<p class="mb-3">Untuk pertanyaan, saran, atau kerja sama, silakan hubungi kami melalui:</p><p class="mb-2"><i class="fas fa-envelope mr-2 text-red-500"></i> Email: karyaabadi24434@gmail.com</p><p class="mb-2"><i class="fas fa-globe mr-2 text-red-500"></i> Lokasi: Indonesia</p><p><i class="fas fa-clock mr-2 text-red-500"></i> Jam Operasional: 24/7 Online</p>`,
             privacy: `<p class="mb-3"><strong>1. Pengumpulan Data</strong><br>Karya Abadi AI menghormati privasi Anda. Aplikasi kami menggunakan penyimpanan lokal browser (localStorage) untuk menyimpan data pesan forum, riwayat pencarian, dan project kolaborasi. Data ini disimpan sepenuhnya di perangkat Anda.</p><p class="mb-3"><strong>2. Auto-Delete</strong><br>Data pesan forum akan otomatis terhapus dalam 7 hari, dan data project kolaborasi akan otomatis terhapus dalam 14 hari untuk menjaga privasi dan relevansi.</p><p class="mb-3"><strong>3. Pihak Ketiga</strong><br>Tautan ke situs pihak ketiga (platform AI) mungkin memiliki kebijakan privasi tersendiri yang tidak kami kendalikan. Kami sarankan untuk membaca kebijakan privasi situs tersebut.</p><p><strong>4. Contact</strong><br>Jika Anda memiliki pertanyaan mengenai kebijakan ini, silakan hubungi kami di karyaabadi24434@gmail.com.</p>`,
-            terms: `<p class="mb-3"><strong>1. Penerimaan Ketentuan</strong><br>Dengan mengakses dan menggunakan website Karya Abadi AI, Anda menyetujui syarat dan ketentuan ini.</p><p class="mb-3"><strong>2. Tanggung Jawab Pengguna</strong><br>Anda bertanggung jawab atas konten yang Anda posting di forum chat atau project kolaborasi. Dilarang keras memposting konten SARA, pornografi, atau spam.</p><p class="mb-3"><strong>3. Auto-Delete</strong><br>Admin berhak menghapus konten yang melanggar tanpa pemberitahuan terlebih dahulu. Fitur auto-delete akan menghapus data Anda secara otomatis dalam 7 hari (chat) atau 14 hari (project).</p><p><strong>4. Hak Kekayaan Intelektual</strong><br>Penggunaan logo dan informasi AI merek dagang adalah milik perusahaan masing-masing. Kami hanya menampilkan informasi untuk tujuan edukasi.</p>`,
+            terms: `<p class="mb-3"><strong>1. Penerimaan Ketentuan</strong><br>Dengan mengakses dan menggunakan website Karya Abadi AI, Anda menyetujui syarat dan ketentuan esta.</p><p class="mb-3"><strong>2. Tanggung Jawab Pengguna</strong><br>Anda bertanggung jawab atas konten yang Anda posting di forum chat atau project kolaborasi. Dilarang keras memposting konten SARA, pornografi, atau spam.</p><p class="mb-3"><strong>3. Auto-Delete</strong><br>Admin berhak menghapus konten yang melanggar tanpa pemberitahuan terlebih dahulu. Fitur auto-delete akan menghapus data Anda secara otomatis dalam 7 hari (chat) atau 14 hari (project).</p><p><strong>4. Hak Kekayaan Intelektual</strong><br>Penggunaan logo dan informasi AI merek dagang adalah milik perusahaan masing-masing. Kami hanya menampilkan informasi untuk tujuan edukasi.</p>`,
             disclaimer: `<p class="mb-3">Seluruh informasi dan tautan AI yang disediakan di Karya Abadi AI adalah untuk tujuan informasi dan edukasi semata.</p><p class="mb-3">Kami tidak berafiliasi secara resmi dengan seluruh platform AI yang tertera di direktori kami. Penggunaan tools AI pihak ketiga tunduk pada syarat dan ketentuan masing-masing platform.</p><p>Kami tidak bertanggung jawab atas penyalahgunaan informasi atau kerugian yang timbul dari penggunaan platform AI yang terhubung melalui website kami.</p>`
         };
         
@@ -527,9 +544,10 @@
         renderAICards(); updateTrendingTopics();
         
         // ============================================
-        // FUNGSI SERVER JSONBIN (DENGAN SISTEM MERGE CERDAS)
+        // FUNGSI SERVER JSONBIN (DENGAN SISTEM MERGE & QUEUE LOCK)
         // ============================================
         async function fetchDB() {
+            if (isSaving) return; // Jangan fetch jika sedang menyimpan
             try {
                 let res = await fetch('https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID + '/latest', {
                     headers: { 'X-Master-Key': JSONBIN_API_KEY }
@@ -537,7 +555,6 @@
                 let json = await res.json();
                 let serverData = json.record || { chats: [], projects: [] };
                 
-                // Filter Auto-Delete 7 Hari
                 let now = Date.now();
                 let ttl = 7 * 24 * 60 * 60 * 1000;
                 let serverChanged = false;
@@ -552,43 +569,31 @@
                 });
                 
                 if (serverChanged) {
+                    isSaving = true;
                     await fetch('https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID, {
                         method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Master-Key': JSONBIN_API_KEY
-                        },
+                        headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
                         body: JSON.stringify(serverData)
                     });
+                    isSaving = false;
                 }
                 
-                // Merge data server ke dbData lokal
                 if (!dbData.chats) dbData.chats = [];
                 if (!dbData.projects) dbData.projects = [];
                 
-                // Tambahkan chat dari server yang belum ada di lokal
+                // Merge data server ke lokal
                 let localChatIds = new Set(dbData.chats.map(c => c.id));
-                serverData.chats.forEach(c => {
-                    if (!localChatIds.has(c.id)) {
-                        dbData.chats.push(c);
-                    }
-                });
+                serverData.chats.forEach(c => { if (!localChatIds.has(c.id)) dbData.chats.push(c); });
                 
-                // Tambahkan project dari server yang belum ada di lokal
                 let localProjIds = new Set(dbData.projects.map(p => p.id));
-                serverData.projects.forEach(p => {
-                    if (!localProjIds.has(p.id)) {
-                        dbData.projects.push(p);
-                    }
-                });
+                serverData.projects.forEach(p => { if (!localProjIds.has(p.id)) dbData.projects.push(p); });
                 
-                // Filter TTL untuk data lokal juga
                 dbData.chats = dbData.chats.filter(c => c.timestamp && now - c.timestamp < ttl);
                 dbData.projects = dbData.projects.filter(p => p.timestamp && now - p.timestamp < ttl);
                 
-                // Sort chats by timestamp
                 dbData.chats.sort((a, b) => a.timestamp - b.timestamp);
                 
+                saveLocalCache();
                 renderMessages(dbData.chats);
                 renderProjects(dbData.projects);
             } catch (e) {
@@ -597,18 +602,18 @@
         }
 
         async function saveDB() {
+            isSaving = true;
             try {
                 await fetch('https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID, {
                     method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': JSONBIN_API_KEY
-                    },
+                    headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
                     body: JSON.stringify(dbData)
                 });
+                saveLocalCache();
             } catch (e) {
                 console.error("Error saving:", e);
             }
+            isSaving = false;
         }
 
         // Render Chat
@@ -634,14 +639,16 @@
             
             dbData.chats = dbData.chats || [];
             dbData.chats.push(newMsg);
-            renderMessages(dbData.chats); // Langsung render agar tidak hilang
+            saveLocalCache();
+            renderMessages(dbData.chats); 
             input.value = ''; nameInput.value = name;
-            await saveDB(); // Simpan ke server
+            await saveDB(); 
         }
         
         async function deleteMessage(id) {
             if (confirm('Hapus pesan ini?')) {
                 dbData.chats = dbData.chats.filter(c => c.id !== id);
+                saveLocalCache();
                 renderMessages(dbData.chats);
                 await saveDB();
             }
@@ -666,22 +673,24 @@
             
             dbData.projects = dbData.projects || [];
             dbData.projects.push(newProject);
-            renderProjects(dbData.projects); // Langsung render agar tidak hilang
+            saveLocalCache();
+            renderProjects(dbData.projects); 
             closeCreateProject(); event.target.reset();
-            await saveDB(); // Simpan ke server
+            await saveDB(); 
         }
         
         async function deleteProject(id) {
             if (confirm('Hapus project ini?')) {
                 dbData.projects = dbData.projects.filter(p => p.id !== id);
+                saveLocalCache();
                 renderProjects(dbData.projects);
                 await saveDB();
             }
         }
         
-        // Auto Refresh setiap 3 detik agar terlihat real-time
+        // Auto Refresh setiap 5 detik agar stabil dan tidak diblokir server JSONBin
         fetchDB();
-        setInterval(fetchDB, 3000);
+        setInterval(fetchDB, 5000);
         
         function showLegalModal(title, key) { document.getElementById('legalModalTitle').innerText = title; document.getElementById('legalModalBody').innerHTML = legalContents[key]; document.getElementById('legalModal').classList.remove('modal-hidden'); document.body.style.overflow = 'hidden'; }
         function closeLegalModal() { document.getElementById('legalModal').classList.add('modal-hidden'); document.body.style.overflow = ''; }
