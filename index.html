@@ -14,8 +14,8 @@
     <meta name="author" content="Karya Abadi AI">
     <meta name="robots" content="index, follow">
     
-    <title>Karya Abadi AI - Direktori AI Terlengkap & Forum Kolaborasi Project</title>
-    
+    <title>KARYA ABADI AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.simpleicons.org">
@@ -527,7 +527,7 @@
         renderAICards(); updateTrendingTopics();
         
         // ============================================
-        // FUNGSI SERVER JSONBIN
+        // FUNGSI SERVER JSONBIN (DENGAN SISTEM MERGE CERDAS)
         // ============================================
         async function fetchDB() {
             try {
@@ -535,23 +535,59 @@
                     headers: { 'X-Master-Key': JSONBIN_API_KEY }
                 });
                 let json = await res.json();
-                dbData = json.record || { chats: [], projects: [] };
+                let serverData = json.record || { chats: [], projects: [] };
                 
                 // Filter Auto-Delete 7 Hari
                 let now = Date.now();
                 let ttl = 7 * 24 * 60 * 60 * 1000;
-                let changed = false;
+                let serverChanged = false;
                 
-                dbData.chats = (dbData.chats || []).filter(c => {
-                    if (now - c.timestamp >= ttl) { changed = true; return false; }
+                serverData.chats = (serverData.chats || []).filter(c => {
+                    if (!c.timestamp || now - c.timestamp >= ttl) { serverChanged = true; return false; }
                     return true;
                 });
-                dbData.projects = (dbData.projects || []).filter(p => {
-                    if (now - p.timestamp >= ttl) { changed = true; return false; }
+                serverData.projects = (serverData.projects || []).filter(p => {
+                    if (!p.timestamp || now - p.timestamp >= ttl) { serverChanged = true; return false; }
                     return true;
                 });
                 
-                if (changed) await saveDB();
+                if (serverChanged) {
+                    await fetch('https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Master-Key': JSONBIN_API_KEY
+                        },
+                        body: JSON.stringify(serverData)
+                    });
+                }
+                
+                // Merge data server ke dbData lokal
+                if (!dbData.chats) dbData.chats = [];
+                if (!dbData.projects) dbData.projects = [];
+                
+                // Tambahkan chat dari server yang belum ada di lokal
+                let localChatIds = new Set(dbData.chats.map(c => c.id));
+                serverData.chats.forEach(c => {
+                    if (!localChatIds.has(c.id)) {
+                        dbData.chats.push(c);
+                    }
+                });
+                
+                // Tambahkan project dari server yang belum ada di lokal
+                let localProjIds = new Set(dbData.projects.map(p => p.id));
+                serverData.projects.forEach(p => {
+                    if (!localProjIds.has(p.id)) {
+                        dbData.projects.push(p);
+                    }
+                });
+                
+                // Filter TTL untuk data lokal juga
+                dbData.chats = dbData.chats.filter(c => c.timestamp && now - c.timestamp < ttl);
+                dbData.projects = dbData.projects.filter(p => p.timestamp && now - p.timestamp < ttl);
+                
+                // Sort chats by timestamp
+                dbData.chats.sort((a, b) => a.timestamp - b.timestamp);
                 
                 renderMessages(dbData.chats);
                 renderProjects(dbData.projects);
@@ -598,16 +634,16 @@
             
             dbData.chats = dbData.chats || [];
             dbData.chats.push(newMsg);
-            await saveDB();
-            renderMessages(dbData.chats);
+            renderMessages(dbData.chats); // Langsung render agar tidak hilang
             input.value = ''; nameInput.value = name;
+            await saveDB(); // Simpan ke server
         }
         
         async function deleteMessage(id) {
             if (confirm('Hapus pesan ini?')) {
                 dbData.chats = dbData.chats.filter(c => c.id !== id);
-                await saveDB();
                 renderMessages(dbData.chats);
+                await saveDB();
             }
         }
         
@@ -630,16 +666,16 @@
             
             dbData.projects = dbData.projects || [];
             dbData.projects.push(newProject);
-            await saveDB();
-            renderProjects(dbData.projects);
+            renderProjects(dbData.projects); // Langsung render agar tidak hilang
             closeCreateProject(); event.target.reset();
+            await saveDB(); // Simpan ke server
         }
         
         async function deleteProject(id) {
             if (confirm('Hapus project ini?')) {
                 dbData.projects = dbData.projects.filter(p => p.id !== id);
-                await saveDB();
                 renderProjects(dbData.projects);
+                await saveDB();
             }
         }
         
