@@ -15,7 +15,7 @@
     <meta name="robots" content="index, follow">
     
     <title>KARYA ABADI AI</title>
-    
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.simpleicons.org">
@@ -263,6 +263,7 @@
                                 <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-800 rounded-xl flex items-center justify-center"><i class="fas fa-comments text-white"></i></div>
                                 <div><div class="font-semibold" style="color: var(--text-primary)">Forum Pengalaman AI</div><div class="text-xs font-mono flex items-center gap-1" style="color: var(--text-muted)"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Real-time chat</div></div>
                             </div>
+                            <button onclick="fetchDB()" class="text-sm p-2 rounded-lg" style="color: var(--text-muted); background: var(--bg-elevated)" title="Sinkronkan Data"><i class="fas fa-sync-alt"></i></button>
                         </div>
                         <div class="flex-1 overflow-y-auto p-4 space-y-4 chat-scroll" id="chatMessages"></div>
                         <div class="border-t p-4" style="border-color: var(--border-color)">
@@ -420,29 +421,22 @@
         // ============================================
         // KONFIGURASI JSONBIN.IO
         // ============================================
-        // Menggunakan X-Master-Key agar memiliki akses penuh tulis/hapus ke server
-        const JSONBIN_API_KEY = "$2a$10$lpMusouSod0P8C7VHllNcepvr7.Q3jrS61xkyRbXhdhK5dboyfxLa"; 
-        const JSONBIN_BIN_ID = "6a6dbfbada38895dfeabf16f";
+        const JSONBIN_API_KEY = "$2a$10$lpMUsouSodOP8C7VHllNcepvr7.Q3jrS61xkyRbXhdhK5dboyfxLa"; 
+        const JSONBIN_BIN_ID = "6a6dd3c3f5f4af5e29dda20b";
         
         let dbData = { chats: [], projects: [] };
-        let isSaving = false; // Lock agar tidak tabrakan dengan auto-refresh
+        let isSaving = false;
         
-        // SISTEM BACKUP LOKAL (Agar tidak hilang saat refresh)
         const LOCAL_CACHE_KEY = 'karyaabadi_cache';
         try {
             let cache = localStorage.getItem(LOCAL_CACHE_KEY);
-            if (cache) {
-                dbData = JSON.parse(cache);
-            }
+            if (cache) dbData = JSON.parse(cache);
         } catch(e) {}
         
         function saveLocalCache() {
-            try {
-                localStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify(dbData));
-            } catch(e) {}
+            try { localStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify(dbData)); } catch(e) {}
         }
 
-        // SISTEM ID PENGGUNA
         const USER_ID_KEY = 'karyaabadi_user_id';
         let currentUserId = localStorage.getItem(USER_ID_KEY);
         if (!currentUserId) {
@@ -451,28 +445,28 @@
         }
 
         const aiDatabase = [
-            { name:"ChatGPT", category:"text", logoSlug:"openai", domain:"openai.com", shortDesc:"AI chatbot terpopuler dengan GPT-4o.", link:"https://chat.openai.com", functions:["Menjawab pertanyaan kompleks dengan akurasi tinggi menggunakan GPT-4o, mampu memahami konteks dan nuansa bahasa secara mendalam.", "Menulis, merangkum, dan mengedit berbagai jenis konten seperti artikel, email, esai, hingga kode pemrograman dengan gaya bahasa yang dapat disesuaikan.", "Mengunggah dan menganalisis file data (CSV, Excel), membuat visualisasi grafik, serta memberikan insight berdasarkan data tersebut.", "Menerjemahkan teks ke puluhan bahasa dunia secara akurat dengan menjaga konteks dan makna asli.", "Membuat gambar menggunakan DALL-E 3 dan menganalisis gambar yang diunggah (Vision)."] },
-            { name:"Claude", category:"text", logoSlug:"", domain:"claude.ai", shortDesc:"AI assistant dengan reasoning mendalam.", link:"https://claude.ai", functions:["Menganalisis dokumen panjang (hingga 200K token) seperti buku, laporan keuangan, atau codebase dalam sekali baca.", "Penulisan kreatif dan profesional yang berkualitas tinggi dengan nada yang lebih natural dan manusiawi.", "Coding kompleks, debugging, serta menjelaskan logika pemrograman dengan sangat detail.", "Melakukan riset mendalam dan merangkum informasi dari berbagai sumber secara komprehensif.", "Reasoning multi-step untuk memecahkan masalah logika, matematika, dan analisis bisnis."] },
-            { name:"Gemini", category:"text", logoSlug:"googlegemini", domain:"gemini.google.com", shortDesc:"AI multimodal Google.", link:"https://gemini.google.com", functions:["Pemrosesan multimodal: menganalisis teks, gambar, audio, dan video secara bersamaan dalam satu prompt.", "Integrasi langsung dengan ekosistem Google Workspace (Docs, Gmail, Drive) untuk produktivitas maksimal.", "Akses real-time ke informasi terbaru di internet melalui Google Search.", "Coding assistance untuk berbagai bahasa pemrograman dengan kemampuan debugging.", "Pembuatan konten visual dan gambar menggunakan model Imagen."] },
-            { name:"Midjourney", category:"image", logoSlug:"", domain:"midjourney.com", shortDesc:"AI image generator kualitas seni tinggi.", link:"https://www.midjourney.com", functions:["Generasi gambar berkualitas seni tinggi dari deskripsi teks (prompt) dengan estetika yang memukau.", "Menyediakan berbagai style seni seperti fotorealistik, anime, 3D render, hingga cat air.", "Image-to-image transformation untuk memodifikasi gambar existing berdasarkan referensi.", "Membuat variasi dan remix gambar untuk eksplorasi kreativitas tanpa batas.", "Upscaling resolusi tinggi untuk menghasilkan gambar siap cetak."] },
-            { name:"DALL-E 3", category:"image", logoSlug:"openai", domain:"openai.com", shortDesc:"AI image generator dari OpenAI.", link:"https://openai.com/dall-e-3", functions:["Text-to-image generation yang sangat akurat dan sesuai dengan deskripsi prompt yang diminta.", "Pemahaman prompt yang detail, mampu menghasilkan teks di dalam gambar dengan ejaan yang benar.", "Editing gambar dengan instruksi teks (inpainting/outpainting) untuk menambah atau menghapus elemen.", "Terintegrasi langsung di dalam ChatGPT untuk memudahkan iterasi prompt.", "Memiliki safety filter bawaan untuk mencegah pembuatan konten yang tidak pantas."] },
-            { name:"Stable Diffusion", category:"image", logoSlug:"", domain:"stability.ai", shortDesc:"Open-source AI image generator.", link:"https://stability.ai", functions:["Text-to-image generation yang sepenuhnya open-source dan dapat dijalankan secara lokal di komputer pribadi.", "Image-to-image transformation untuk mengubah gaya gambar atau menambahkan detail.", "Inpainting dan outpainting untuk memperbaiki bagian gambar atau memperluas kanvas.", "Mendukung ControlNet untuk kontrol presisi pose, garis, dan struktur gambar.", "Komunitas besar dengan ribuan custom models dan LoRA yang bisa diunduh gratis."] },
-            { name:"Runway ML", category:"video", logoSlug:"", domain:"runwayml.com", shortDesc:"AI video generation dengan Gen-3.", link:"https://runwayml.com", functions:["Text-to-video generation canggih menggunakan model Gen-3 Alpha dengan kualitas sinematik.", "Video-to-video transformation untuk mengubah gaya video asli menjadi animasi atau gaya lain.", "Motion brush untuk menganimasikan bagian spesifik dari gambar diam (still image).", "Green screen otomatis tanpa kunci warna manual menggunakan AI.", "Frame interpolation untuk membuat transisi video yang mulus dari frame yang terputus."] },
-            { name:"Synthesia", category:"video", logoSlug:"", domain:"synthesia.io", shortDesc:"AI video dengan avatar manusia.", link:"https://www.synthesia.io", functions:["Membuat video presentasi dengan AI avatar berbicara hanya dari input teks.", "Mendukung 140+ bahasa dengan akurasi terjemahan dan pengucapan yang sangat natural.", "Membuat custom avatar berdasarkan wajah dan suara Anda sendiri (Custom Avatar).", "Menyediakan ratusan template video profesional untuk berbagai kebutuhan bisnis.", "Voice cloning untuk mereplikasi suara asli agar digunakan oleh AI avatar."] },
-            { name:"ElevenLabs", category:"audio", logoSlug:"elevenlabs", domain:"elevenlabs.io", shortDesc:"AI text-to-speech paling natural.", link:"https://elevenlabs.io", functions:["Text-to-speech berkualitas tinggi dengan intonasi yang sangat natural dan ekspresif.", "Voice cloning dari sample audio singkat untuk mereplikasi suara spesifik.", "Dubbing multi-bahasa otomatis untuk video dengan menjaga emosi suara asli.", "Membuat sound effect berdasarkan deskripsi teks (Text-to-SFX).", "Menyediakan API untuk integrasi suara AI ke aplikasi pihak ketiga."] },
-            { name:"Suno AI", category:"audio", logoSlug:"", domain:"suno.com", shortDesc:"AI music generator dari teks.", link:"https://suno.com", functions:["Text-to-music generation untuk membuat lagu lengkap (vokal + musik) dari deskripsi teks.", "Menghasilkan lagu dengan vokal yang jelas dan lirik yang dapat dikustomisasi.", "Mendukung multi-genre musik dari pop, rock, klasik, hingga EDM.", "Memasukkan custom lyrics sendiri untuk dinyanyikan oleh AI.", "Song extension dan remix untuk memperpanjang durasi atau mengubah genre lagu."] },
-            { name:"GitHub Copilot", category:"code", logoSlug:"github", domain:"github.com", shortDesc:"AI pair programmer dari GitHub.", link:"https://github.com/features/copilot", functions:["Code completion real-time di dalam IDE untuk mempercepat penulisan kode.", "Generate fungsi atau class utuh hanya dari deskripsi komentar (natural language to code).", "Mendukung puluhan bahasa pemrograman seperti Python, JavaScript, Go, dll.", "Bug fixing dan refactoring kode dengan saran perbaikan yang kontekstual.", "Membuat unit test secara otomatis berdasarkan kode yang sudah ditulis."] },
-            { name:"Cursor", category:"code", logoSlug:"", domain:"cursor.sh", shortDesc:"AI-first code editor.", link:"https://cursor.sh", functions:["Chat dengan codebase Anda untuk menanyakan atau mencari logika di dalam project.", "Generate kode dari natural language dan langsung menerapkannya di file.", "Multi-file editing untuk merubah beberapa file sekaligus dalam satu instruksi.", "Codebase-aware suggestions yang memahami konteks seluruh project Anda.", "Debug assistance dengan kemampuan menganalisis error terminal dan memberikan solusi."] },
-            { name:"Notion AI", category:"productivity", logoSlug:"notion", domain:"notion.so", shortDesc:"AI assistant di Notion.", link:"https://www.notion.so/product/ai", functions:["Auto-generate dan edit konten untuk mempercepat penulisan dokumen, rencana, atau catatan.", "Summarize page dan meeting notes secara otomatis menjadi poin-poin penting.", "Translation multi-bahasa untuk konten di dalam workspace Notion.", "Q&A untuk mencari informasi spesifik di dalam seluruh workspace Anda.", "Database autofill untuk mengategorikan atau merangkum item di database Notion."] },
-            { name:"Perplexity", category:"productivity", logoSlug:"perplexity", domain:"perplexity.ai", shortDesc:"AI search engine dengan sitasi.", link:"https://www.perplexity.ai", functions:["AI search engine yang memberikan jawaban langsung disertai sitasi sumber yang terverifikasi.", "Akses real-time ke informasi terbaru di internet tanpa batasan waktu pelatihan.", "Multi-source synthesis untuk menggabungkan informasi dari berbagai artikel menjadi satu jawaban komprehensif.", "File upload dan analysis untuk menanyakan hal terkait PDF atau dokumen yang diunggah.", "Focused search modes seperti Academic, YouTube, atau Writing untuk hasil yang lebih spesifik."] },
-            { name:"Jasper", category:"marketing", logoSlug:"jasper", domain:"jasper.ai", shortDesc:"AI copywriter untuk marketing.", link:"https://www.jasper.ai", functions:["Generate konten marketing seperti blog post, ad copy, dan email yang persuasif.", "Brand voice customization agar konten yang dibuat sesuai dengan nada bicara brand Anda.", "SEO optimization tool untuk menyarankan keyword dan meningkatkan ranking artikel.", "Multi-language content creation untuk menjangkau audiens global.", "Campaign management untuk mengatur seluruh aset marketing dalam satu platform."] }
+            { name:"ChatGPT", category:"text", logoSlug:"openai", domain:"openai.com", shortDesc:"AI chatbot terpopuler dengan GPT-4o.", link:"https://chat.openai.com", functions:["Menjawab pertanyaan kompleks dengan akurasi tinggi menggunakan GPT-4o.", "Menulis, merangkum, dan mengedit berbagai jenis konten seperti artikel, email, esai, hingga kode pemrograman.", "Mengunggah dan menganalisis file data (CSV, Excel).", "Menerjemahkan teks ke puluhan bahasa dunia.", "Membuat gambar menggunakan DALL-E 3."] },
+            { name:"Claude", category:"text", logoSlug:"", domain:"claude.ai", shortDesc:"AI assistant dengan reasoning mendalam.", link:"https://claude.ai", functions:["Menganalisis dokumen panjang (hingga 200K token).", "Penulisan kreatif dan profesional.", "Coding kompleks, debugging.", "Riset mendalam dan perangkuman informasi.", "Reasoning multi-step untuk analisis bisnis."] },
+            { name:"Gemini", category:"text", logoSlug:"googlegemini", domain:"gemini.google.com", shortDesc:"AI multimodal Google.", link:"https://gemini.google.com", functions:["Pemrosesan multimodal: teks, gambar, audio, video.", "Integrasi Google Workspace.", "Akses real-time internet.", "Coding assistance.", "Pembuatan konten visual model Imagen."] },
+            { name:"Midjourney", category:"image", logoSlug:"", domain:"midjourney.com", shortDesc:"AI image generator kualitas seni tinggi.", link:"https://www.midjourney.com", functions:["Generasi gambar berkualitas seni tinggi.", "Berbagai style seni: fotorealistik, anime, 3D.", "Image-to-image transformation.", "Variasi dan remix gambar.", "Upscaling resolusi tinggi."] },
+            { name:"DALL-E 3", category:"image", logoSlug:"openai", domain:"openai.com", shortDesc:"AI image generator dari OpenAI.", link:"https://openai.com/dall-e-3", functions:["Text-to-image generation akurat.", "Pemahaman prompt detail.", "Editing gambar (inpainting/outpainting).", "Integrasi ChatGPT.", "Safety filter bawaan."] },
+            { name:"Stable Diffusion", category:"image", logoSlug:"", domain:"stability.ai", shortDesc:"Open-source AI image generator.", link:"https://stability.ai", functions:["Text-to-image open-source.", "Image-to-image transformation.", "Inpainting dan outpainting.", "ControlNet kontrol presisi.", "Ribuan custom models LoRA."] },
+            { name:"Runway ML", category:"video", logoSlug:"", domain:"runwayml.com", shortDesc:"AI video generation dengan Gen-3.", link:"https://runwayml.com", functions:["Text-to-video Gen-3 Alpha sinematik.", "Video-to-video transformation.", "Motion brush animasi selektif.", "Green screen otomatis.", "Frame interpolation mulus."] },
+            { name:"Synthesia", category:"video", logoSlug:"", domain:"synthesia.io", shortDesc:"AI video dengan avatar manusia.", link:"https://www.synthesia.io", functions:["Video presentasi AI avatar dari teks.", "140+ bahasa natural.", "Custom avatar wajah & suara.", "Template video profesional.", "Voice cloning."] },
+            { name:"ElevenLabs", category:"audio", logoSlug:"elevenlabs", domain:"elevenlabs.io", shortDesc:"AI text-to-speech paling natural.", link:"https://elevenlabs.io", functions:["Text-to-speech natural & ekspresif.", "Voice cloning.", "Dubbing multi-bahasa otomatis.", "Text-to-SFX sound effect.", "API integrasi pihak ketiga."] },
+            { name:"Suno AI", category:"audio", logoSlug:"", domain:"suno.com", shortDesc:"AI music generator dari teks.", link:"https://suno.com", functions:["Text-to-music generation.", "Vokal jelas & lirik kustom.", "Multi-genre musik.", "Custom lyrics input.", "Song extension & remix."] },
+            { name:"GitHub Copilot", category:"code", logoSlug:"github", domain:"github.com", shortDesc:"AI pair programmer dari GitHub.", link:"https://github.com/features/copilot", functions:["Code completion real-time.", "Generate fungsi/class dari komentar.", "Dukungan puluhan bahasa pemrograman.", "Bug fixing & refactoring.", "Auto-generate unit test."] },
+            { name:"Cursor", category:"code", logoSlug:"", domain:"cursor.sh", shortDesc:"AI-first code editor.", link:"https://cursor.sh", functions:["Chat dengan codebase.", "Generate kode dari natural language.", "Multi-file editing.", "Codebase-aware suggestions.", "Debug assistance error terminal."] },
+            { name:"Notion AI", category:"productivity", logoSlug:"notion", domain:"notion.so", shortDesc:"AI assistant di Notion.", link:"https://www.notion.so/product/ai", functions:["Auto-generate & edit konten.", "Summarize page & meeting notes.", "Translation multi-bahasa.", "Q&A pencarian workspace.", "Database autofill."] },
+            { name:"Perplexity", category:"productivity", logoSlug:"perplexity", domain:"perplexity.ai", shortDesc:"AI search engine dengan sitasi.", link:"https://www.perplexity.ai", functions:["AI search engine ber-sitasi.", "Akses real-time internet.", "Multi-source synthesis jawaban.", "File upload & analysis PDF.", "Focused search modes."] },
+            { name:"Jasper", category:"marketing", logoSlug:"jasper", domain:"jasper.ai", shortDesc:"AI copywriter untuk marketing.", link:"https://www.jasper.ai", functions:["Generate konten marketing persuasif.", "Brand voice customization.", "SEO optimization tool.", "Multi-language content.", "Campaign management aset."] }
         ];
         const legalContents = {
-            about: `<p class="mb-3">Karya Abadi AI adalah platform yang dedikasikan untuk menyediakan informasi lengkap mengenai tools Artificial Intelligence (AI) di Indonesia. Kami bertujuan menjadi jembatan antara pengguna AI, dari pemula hingga profesional, dengan koleksi direktori AI terlengkap, forum diskusi, serta ruang kolaborasi project.</p><p>Visi kami adalah memberdayakan masyarakat Indonesia untuk berevolusi bersama AI, memanfaatkan teknologi untuk menciptakan karya abadi.</p>`,
-            contact: `<p class="mb-3">Untuk pertanyaan, saran, atau kerja sama, silakan hubungi kami melalui:</p><p class="mb-2"><i class="fas fa-envelope mr-2 text-red-500"></i> Email: karyaabadi24434@gmail.com</p><p class="mb-2"><i class="fas fa-globe mr-2 text-red-500"></i> Lokasi: Indonesia</p><p><i class="fas fa-clock mr-2 text-red-500"></i> Jam Operasional: 24/7 Online</p>`,
-            privacy: `<p class="mb-3"><strong>1. Pengumpulan Data</strong><br>Karya Abadi AI menghormati privasi Anda. Aplikasi kami menggunakan penyimpanan lokal browser (localStorage) untuk menyimpan data pesan forum, riwayat pencarian, dan project kolaborasi. Data ini disimpan sepenuhnya di perangkat Anda.</p><p class="mb-3"><strong>2. Auto-Delete</strong><br>Data pesan forum akan otomatis terhapus dalam 7 hari, dan data project kolaborasi akan otomatis terhapus dalam 14 hari untuk menjaga privasi dan relevansi.</p><p class="mb-3"><strong>3. Pihak Ketiga</strong><br>Tautan ke situs pihak ketiga (platform AI) mungkin memiliki kebijakan privasi tersendiri yang tidak kami kendalikan. Kami sarankan untuk membaca kebijakan privasi situs tersebut.</p><p><strong>4. Contact</strong><br>Jika Anda memiliki pertanyaan mengenai kebijakan ini, silakan hubungi kami di karyaabadi24434@gmail.com.</p>`,
-            terms: `<p class="mb-3"><strong>1. Penerimaan Ketentuan</strong><br>Dengan mengakses dan menggunakan website Karya Abadi AI, Anda menyetujui syarat dan ketentuan esta.</p><p class="mb-3"><strong>2. Tanggung Jawab Pengguna</strong><br>Anda bertanggung jawab atas konten yang Anda posting di forum chat atau project kolaborasi. Dilarang keras memposting konten SARA, pornografi, atau spam.</p><p class="mb-3"><strong>3. Auto-Delete</strong><br>Admin berhak menghapus konten yang melanggar tanpa pemberitahuan terlebih dahulu. Fitur auto-delete akan menghapus data Anda secara otomatis dalam 7 hari (chat) atau 14 hari (project).</p><p><strong>4. Hak Kekayaan Intelektual</strong><br>Penggunaan logo dan informasi AI merek dagang adalah milik perusahaan masing-masing. Kami hanya menampilkan informasi untuk tujuan edukasi.</p>`,
-            disclaimer: `<p class="mb-3">Seluruh informasi dan tautan AI yang disediakan di Karya Abadi AI adalah untuk tujuan informasi dan edukasi semata.</p><p class="mb-3">Kami tidak berafiliasi secara resmi dengan seluruh platform AI yang tertera di direktori kami. Penggunaan tools AI pihak ketiga tunduk pada syarat dan ketentuan masing-masing platform.</p><p>Kami tidak bertanggung jawab atas penyalahgunaan informasi atau kerugian yang timbul dari penggunaan platform AI yang terhubung melalui website kami.</p>`
+            about: `<p class="mb-3">Karya Abadi AI adalah platform yang dedikasikan untuk menyediakan informasi lengkap mengenai tools Artificial Intelligence (AI) di Indonesia.</p><p>Visi kami adalah memberdayakan masyarakat Indonesia untuk berevolusi bersama AI, memanfaatkan teknologi untuk menciptakan karya abadi.</p>`,
+            contact: `<p class="mb-3">Untuk pertanyaan, saran, atau kerja sama, silakan hubungi kami melalui:</p><p class="mb-2"><i class="fas fa-envelope mr-2 text-red-500"></i> Email: karyaabadi24434@gmail.com</p><p><i class="fas fa-clock mr-2 text-red-500"></i> Jam Operasional: 24/7 Online</p>`,
+            privacy: `<p class="mb-3"><strong>1. Pengumpulan Data</strong><br>Data disimpan di server cloud (JSONBin.io) dan lokal browser Anda.</p><p class="mb-3"><strong>2. Auto-Delete</strong><br>Data pesan forum akan otomatis terhapus dalam 7 hari, dan project dalam 14 hari.</p><p><strong>3. Contact</strong><br>Hubungi kami di karyaabadi24434@gmail.com untuk pertanyaan privasi.</p>`,
+            terms: `<p class="mb-3"><strong>1. Penerimaan Ketentuan</strong><br>Dengan mengakses website ini, Anda menyetujui syarat dan ketentuan.</p><p class="mb-3"><strong>2. Tanggung Jawab Pengguna</strong><br>Dilarang memposting konten SARA, pornografi, atau spam.</p><p><strong>3. Auto-Delete</strong><br>Admin berhak menghapus konten melanggar. Data otomatis terhapus dalam 7 hari (chat) atau 14 hari (project).</p>`,
+            disclaimer: `<p class="mb-3">Informasi AI yang disediakan adalah untuk tujuan edukasi semata.</p><p>Kami tidak bertanggung jawab atas penyalahgunaan informasi dari platform AI pihak ketiga.</p>`
         };
         
         var html = document.documentElement;
@@ -544,14 +538,15 @@
         renderAICards(); updateTrendingTopics();
         
         // ============================================
-        // FUNGSI SERVER JSONBIN (DENGAN SISTEM MERGE & QUEUE LOCK)
+        // SISTEM READ-MODIFY-WRITE JSONBIN
         // ============================================
         async function fetchDB() {
-            if (isSaving) return; // Jangan fetch jika sedang menyimpan
+            if (isSaving) return;
             try {
                 let res = await fetch('https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID + '/latest', {
                     headers: { 'X-Master-Key': JSONBIN_API_KEY }
                 });
+                if (!res.ok) return; 
                 let json = await res.json();
                 let serverData = json.record || { chats: [], projects: [] };
                 
@@ -559,29 +554,25 @@
                 let ttl = 7 * 24 * 60 * 60 * 1000;
                 let serverChanged = false;
                 
-                serverData.chats = (serverData.chats || []).filter(c => {
+                if (!Array.isArray(serverData.chats)) serverData.chats = [];
+                if (!Array.isArray(serverData.projects)) serverData.projects = [];
+                
+                serverData.chats = serverData.chats.filter(c => {
                     if (!c.timestamp || now - c.timestamp >= ttl) { serverChanged = true; return false; }
                     return true;
                 });
-                serverData.projects = (serverData.projects || []).filter(p => {
+                serverData.projects = serverData.projects.filter(p => {
                     if (!p.timestamp || now - p.timestamp >= ttl) { serverChanged = true; return false; }
                     return true;
                 });
                 
                 if (serverChanged) {
-                    isSaving = true;
-                    await fetch('https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
-                        body: JSON.stringify(serverData)
-                    });
-                    isSaving = false;
+                    await saveDB(true);
                 }
                 
-                if (!dbData.chats) dbData.chats = [];
-                if (!dbData.projects) dbData.projects = [];
+                if (!Array.isArray(dbData.chats)) dbData.chats = [];
+                if (!Array.isArray(dbData.projects)) dbData.projects = [];
                 
-                // Merge data server ke lokal
                 let localChatIds = new Set(dbData.chats.map(c => c.id));
                 serverData.chats.forEach(c => { if (!localChatIds.has(c.id)) dbData.chats.push(c); });
                 
@@ -597,26 +588,49 @@
                 renderMessages(dbData.chats);
                 renderProjects(dbData.projects);
             } catch (e) {
-                console.error("Error fetching:", e);
+                console.error("Fetch Error:", e);
             }
         }
 
-        async function saveDB() {
+        async function saveDB(skipFetch = false) {
             isSaving = true;
             try {
+                let serverData = dbData;
+                
+                if (!skipFetch) {
+                    let res = await fetch('https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID + '/latest', {
+                        headers: { 'X-Master-Key': JSONBIN_API_KEY }
+                    });
+                    if (res.ok) {
+                        let json = await res.json();
+                        serverData = json.record || { chats: [], projects: [] };
+                        if (!Array.isArray(serverData.chats)) serverData.chats = [];
+                        if (!Array.isArray(serverData.projects)) serverData.projects = [];
+
+                        let serverChatIds = new Set(serverData.chats.map(c => c.id));
+                        dbData.chats.forEach(c => { if (!serverChatIds.has(c.id)) serverData.chats.push(c); });
+
+                        let serverProjIds = new Set(serverData.projects.map(p => p.id));
+                        dbData.projects.forEach(p => { if (!serverProjIds.has(p.id)) serverData.projects.push(p); });
+                        
+                        dbData = serverData;
+                        saveLocalCache();
+                        renderMessages(dbData.chats);
+                        renderProjects(dbData.projects);
+                    }
+                }
+
                 await fetch('https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
-                    body: JSON.stringify(dbData)
+                    body: JSON.stringify(serverData)
                 });
-                saveLocalCache();
             } catch (e) {
-                console.error("Error saving:", e);
+                console.error("Save Error:", e);
             }
             isSaving = false;
         }
 
-        // Render Chat
         function renderMessages(messages) {
             var chatMessages = document.getElementById('chatMessages');
             if (!messages || messages.length === 0) { 
@@ -654,7 +668,6 @@
             }
         }
         
-        // Render Project
         function renderProjects(projects) {
             var grid = document.getElementById('projectGrid'), statusColors = { 'Recruiting': 'background: rgba(234,179,8,0.15); color: #eab308; border: 1px solid rgba(234,179,8,0.3)', 'Active': 'background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3)' };
             if (!projects || projects.length === 0) { grid.innerHTML = '<div class="col-span-full text-center py-16" style="color: var(--text-muted)"><i class="fas fa-project-diagram text-5xl mb-4"></i><p class="text-lg">Belum ada project yang dibagikan.</p><p class="text-sm mt-2">Jadilah yang pertama membagikan project AI Anda!</p></div>'; return; }
@@ -688,9 +701,8 @@
             }
         }
         
-        // Auto Refresh setiap 5 detik agar stabil dan tidak diblokir server JSONBin
         fetchDB();
-        setInterval(fetchDB, 5000);
+        setInterval(fetchDB, 15000);
         
         function showLegalModal(title, key) { document.getElementById('legalModalTitle').innerText = title; document.getElementById('legalModalBody').innerHTML = legalContents[key]; document.getElementById('legalModal').classList.remove('modal-hidden'); document.body.style.overflow = 'hidden'; }
         function closeLegalModal() { document.getElementById('legalModal').classList.add('modal-hidden'); document.body.style.overflow = ''; }
