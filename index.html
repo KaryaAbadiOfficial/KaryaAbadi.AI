@@ -420,8 +420,8 @@
         // ============================================
         // KONFIGURASI JSONBIN.IO
         // ============================================
-        const JSONBIN_API_KEY = "$2a$10$lpMUsouSodOP8C7VHllNcepvr7.Q3jrS61xkyRbXhdhK5dboyfxLa"; 
-        const JSONBIN_BIN_ID = "$2a$10$aAPGDA7uCKUzxzxhpio04eOULlzuoAStHRM1FNHf0Y.3J5FEd0qUS"; // GANTI DENGAN BIN ID ANDA
+        const JSONBIN_API_KEY = "$2a$10$aAPGDA7uCKUzxzxhpio04eOULlzuoAStHRM1FNHf0Y.3J5FEd0qUS";
+        const JSONBIN_BIN_ID = "6a6dbfbada38895dfeabf16f";
         
         let dbData = { chats: [], projects: [] };
         
@@ -530,10 +530,6 @@
         // FUNGSI SERVER JSONBIN
         // ============================================
         async function fetchDB() {
-            if (JSONBIN_BIN_ID.includes("PASTE_")) {
-                document.getElementById('chatMessages').innerHTML = '<div class="text-center py-10" style="color: var(--text-muted)"><i class="fas fa-exclamation-triangle text-4xl mb-3"></i><p>Server belum diatur.</p><p class="text-xs mt-2">Isi Bin ID JSONBin.io di dalam kode.</p></div>';
-                return;
-            }
             try {
                 let res = await fetch('https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID + '/latest', {
                     headers: { 'X-Master-Key': JSONBIN_API_KEY }
@@ -595,7 +591,6 @@
         }
         
         async function sendMessage() {
-            if (JSONBIN_BIN_ID.includes("PASTE_")) return alert("Atur Bin ID JSONBin terlebih dahulu.");
             var nameInput = document.getElementById('userName'), input = document.getElementById('chatInput'), name = nameInput.value.trim() || 'Anonim', text = input.value.trim(); 
             if (!text) return;
             var colors = ['from-red-600 to-red-800','from-blue-600 to-cyan-700','from-purple-600 to-pink-700','from-green-600 to-emerald-700','from-amber-600 to-orange-700'];
@@ -631,7 +626,6 @@
         function closeCreateProject() { document.getElementById('createProjectModal').classList.add('modal-hidden'); document.body.style.overflow = ''; }
         async function createProject(event) {
             event.preventDefault(); 
-            if (JSONBIN_BIN_ID.includes("PASTE_")) return alert("Atur Bin ID JSONBin terlebih dahulu.");
             var newProject = { id: 'proj_' + Date.now() + Math.random().toString(36).substr(2, 5), userId: currentUserId, title: document.getElementById('projName').value, category: document.getElementById('projCat').value, description: document.getElementById('projDesc').value, whatsapp: document.getElementById('projWA').value.replace(/\D/g, ''), leader: document.getElementById('projLeader').value, members: 1, maxMembers: parseInt(document.getElementById('projMembers').value), skills: document.getElementById('projSkills').value.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; }), status: 'Recruiting', progress: 5, timestamp: Date.now() };
             
             dbData.projects = dbData.projects || [];
