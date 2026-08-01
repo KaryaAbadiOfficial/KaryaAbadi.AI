@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Inline CSS Kritikal: Mencegah layar hitam sebelum Tailwind load -->
     <style>
         html, body { background-color: #0a0a0a; color: #ffffff; margin: 0; padding: 0; }
         :root[data-theme="light"] html, :root[data-theme="light"] body { background-color: #f5f5f7; color: #18181b; }
@@ -15,8 +14,7 @@
     <meta name="author" content="Karya Abadi AI">
     <meta name="robots" content="index, follow">
     
-    <title>KARYA ABADI AI</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Karya Abadi AI - Direktori AI Terlengkap & Forum Kolaborasi Project</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -248,7 +246,6 @@
                         </div>
                         <div class="space-y-2 mb-4">
                             <div class="rounded-lg p-3" style="background: var(--bg-elevated)"><div class="flex items-center justify-between mb-1"><span class="text-xs" style="color: var(--text-muted)">Total Pesan</span><i class="fas fa-comment-dots text-red-500 text-xs"></i></div><div class="font-display font-bold text-2xl" style="color: var(--text-primary)" id="totalMessages">0</div></div>
-                            <div class="rounded-lg p-3" style="background: var(--bg-elevated)"><div class="flex items-center justify-between mb-1"><span class="text-xs" style="color: var(--text-muted)">Topik Diskusi</span><i class="fas fa-lightbulb text-red-500 text-xs"></i></div><div class="font-display font-bold text-2xl" style="color: var(--text-primary)">0</div></div>
                         </div>
                         <div class="border-t pt-4" style="border-color: var(--border-color)">
                             <div class="text-xs font-mono uppercase tracking-wider mb-2" style="color: var(--text-muted)">Topik Trending</div>
@@ -256,7 +253,7 @@
                         </div>
                         <div class="mt-4 p-3 rounded-lg" style="background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3)">
                             <div class="flex items-center gap-2 text-xs" style="color: #eab308"><i class="fas fa-clock"></i><span class="font-semibold">Auto-Delete 7 Hari</span></div>
-                            <p class="text-xs mt-1" style="color: var(--text-muted)">Pesan akan otomatis terhapus dalam 7 hari untuk menjaga relevansi diskusi.</p>
+                            <p class="text-xs mt-1 text-justify" style="color: var(--text-muted)">Pesan akan otomatis terhapus dalam 7 hari. Anda hanya bisa menghapus pesan Anda sendiri.</p>
                         </div>
                     </div>
                 </div>
@@ -267,7 +264,6 @@
                                 <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-800 rounded-xl flex items-center justify-center"><i class="fas fa-comments text-white"></i></div>
                                 <div><div class="font-semibold" style="color: var(--text-primary)">Forum Pengalaman AI</div><div class="text-xs font-mono flex items-center gap-1" style="color: var(--text-muted)"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Real-time chat</div></div>
                             </div>
-                            <button onclick="clearChat()" class="text-sm" style="color: var(--text-muted)" onmouseover="this.style.color='var(--red-primary)'" onmouseout="this.style.color='var(--text-muted)'"><i class="fas fa-trash"></i></button>
                         </div>
                         <div class="flex-1 overflow-y-auto p-4 space-y-4 chat-scroll" id="chatMessages"></div>
                         <div class="border-t p-4" style="border-color: var(--border-color)">
@@ -347,7 +343,7 @@
                         <div class="logo-wrapper"><img src="https://z-cdn-media.chatglm.cn/files/18ab3fc6-ed5b-4a69-9ba0-50961b04299b.png?auth_key=1885560969-b6cad73974a94bfe8cbf7232c8edbc6a-0-3e76e291785f2463ff750c0056cd9a57" alt="Karya Abadi AI" class="logo-img"></div>
                         <div class="font-display font-bold text-xl md:text-2xl leading-none tracking-tight whitespace-nowrap"><span style="color: var(--text-primary)">KARYA ABADI</span> <span style="color: var(--red-primary)"> AI</span></div>
                     </div>
-                    <p class="text-sm mb-4" style="color: var(--text-secondary)">Platform informasi AI terlengkap dengan forum diskusi dan kolaborasi project untuk pengguna AI di Indonesia.</p>
+                    <p class="text-sm mb-4 text-justify" style="color: var(--text-secondary)">Platform informasi AI terlengkap dengan forum diskusi dan kolaborasi project untuk pengguna AI di Indonesia.</p>
                 </div>
                 <div>
                     <h4 class="font-semibold text-sm uppercase tracking-wider mb-4" style="color: var(--text-primary)">Navigasi</h4>
@@ -398,7 +394,7 @@
     <div id="createProjectModal" class="fixed inset-0 z-[100] modal-hidden items-center justify-center p-4" style="background: var(--modal-overlay);">
         <div class="rounded-2xl max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto chat-scroll" style="background: var(--bg-card); border: 1px solid var(--border-color)">
             <div class="flex items-center justify-between mb-6"><h3 class="font-display font-bold text-xl" style="color: var(--text-primary)">Bagikan Project AI</h3><button onclick="closeCreateProject()" style="color: var(--text-muted)"><i class="fas fa-times text-xl"></i></button></div>
-            <div class="mb-6 p-4 rounded-lg" style="background: var(--bg-elevated)"><p class="text-sm text-justify" style="color: var(--text-secondary)"><i class="fas fa-info-circle text-red-500 mr-2"></i>Bagikan profil WhatsApp Anda dan jelaskan project yang sedang Anda kerjakan agar pengunjung lain bisa menghubungi dan bergabung.</p><p class="text-xs mt-2 font-mono" style="color: #eab308"><i class="fas fa-clock mr-1"></i> Project akan otomatis terhapus dalam 2 minggu.</p></div>
+            <div class="mb-6 p-4 rounded-lg" style="background: var(--bg-elevated)"><p class="text-sm text-justify" style="color: var(--text-secondary)"><i class="fas fa-info-circle text-red-500 mr-2"></i>Bagikan profil WhatsApp Anda dan jelaskan project yang sedang Anda kerjakan agar pengunjung lain bisa menghubungi dan bergabung.</p><p class="text-xs mt-2 font-mono" style="color: #eab308"><i class="fas fa-clock mr-1"></i> Project akan otomatis terhapus dalam 7 hari.</p></div>
             <form onsubmit="createProject(event)" class="space-y-4">
                 <div><label class="block text-sm font-medium mb-2" style="color: var(--text-secondary)">Nama Project</label><input type="text" id="projName" required placeholder="contoh: AI Image Generator Indonesia" class="themed-input w-full rounded-lg px-4 py-3"></div>
                 <div><label class="block text-sm font-medium mb-2" style="color: var(--text-secondary)">Deskripsi Project</label><textarea id="projDesc" required rows="3" placeholder="Jelaskan tujuan project dan kebutuhan tim..." class="themed-input w-full rounded-lg px-4 py-3"></textarea></div>
@@ -422,6 +418,16 @@
     </div>
     
     <script>
+        // ============================================
+        // SISTEM ID PENGGUNA (User ID)
+        // ============================================
+        const USER_ID_KEY = 'karyaabadi_user_id';
+        let currentUserId = localStorage.getItem(USER_ID_KEY);
+        if (!currentUserId) {
+            currentUserId = 'user_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+            localStorage.setItem(USER_ID_KEY, currentUserId);
+        }
+
         const aiDatabase = [
             { name:"ChatGPT", category:"text", logoSlug:"openai", domain:"openai.com", shortDesc:"AI chatbot terpopuler dengan GPT-4o.", link:"https://chat.openai.com", functions:["Menjawab pertanyaan kompleks dengan akurasi tinggi menggunakan GPT-4o, mampu memahami konteks dan nuansa bahasa secara mendalam.", "Menulis, merangkum, dan mengedit berbagai jenis konten seperti artikel, email, esai, hingga kode pemrograman dengan gaya bahasa yang dapat disesuaikan.", "Mengunggah dan menganalisis file data (CSV, Excel), membuat visualisasi grafik, serta memberikan insight berdasarkan data tersebut.", "Menerjemahkan teks ke puluhan bahasa dunia secara akurat dengan menjaga konteks dan makna asli.", "Membuat gambar menggunakan DALL-E 3 dan menganalisis gambar yang diunggah (Vision)."] },
             { name:"Claude", category:"text", logoSlug:"", domain:"claude.ai", shortDesc:"AI assistant dengan reasoning mendalam.", link:"https://claude.ai", functions:["Menganalisis dokumen panjang (hingga 200K token) seperti buku, laporan keuangan, atau codebase dalam sekali baca.", "Penulisan kreatif dan profesional yang berkualitas tinggi dengan nada yang lebih natural dan manusiawi.", "Coding kompleks, debugging, serta menjelaskan logika pemrograman dengan sangat detail.", "Melakukan riset mendalam dan merangkum informasi dari berbagai sumber secara komprehensif.", "Reasoning multi-step untuk memecahkan masalah logika, matematika, dan analisis bisnis."] },
@@ -488,7 +494,6 @@
             });
             if (filtered.length === 0) { grid.innerHTML = ''; noResults.classList.remove('modal-hidden'); return; }
             noResults.classList.add('modal-hidden');
-            // Kartu menggunakan flex-col h-full agar tinggi sama dan rapi
             grid.innerHTML = filtered.map(function(ai) {
                 var idx = aiDatabase.indexOf(ai);
                 return '<div class="ai-card rounded-2xl overflow-hidden cursor-pointer group flex flex-col h-full" onclick="showAIDetail(' + idx + ')"><div class="p-5 flex flex-col h-full"><div class="flex items-start justify-between mb-4">' + getLogoHTML(ai) + '<span class="text-xs font-mono px-2 py-1 rounded" style="background: var(--bg-elevated); color: var(--text-muted)">' + ai.category + '</span></div><h3 class="font-display font-bold text-lg mb-2 group-hover:text-red-500" style="color: var(--text-primary)">' + ai.name + '</h3><p class="text-sm mb-4 flex-1 text-justify" style="color: var(--text-secondary)">' + ai.shortDesc + '</p><div class="flex gap-2 mt-auto"><button onclick="event.stopPropagation(); showAIDetail(' + idx + ')" class="flex-1 text-sm py-2 rounded-lg" style="background: var(--bg-elevated); color: var(--text-primary)"><i class="fas fa-info-circle mr-1"></i> Detail</button><a href="' + ai.link + '" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="flex-1 bg-red-600 hover:bg-red-700 text-sm py-2 rounded-lg text-center text-white"><i class="fas fa-external-link-alt mr-1"></i> Kunjungi</a></div></div></div>';
@@ -516,46 +521,78 @@
         }
         renderAICards(); updateTrendingTopics();
         
-        var chatMessages = document.getElementById('chatMessages'), CHAT_KEY = 'karyaabadi_chat_7d_auto_delete', CHAT_TTL = 7 * 24 * 60 * 60 * 1000;
+        // ============================================
+        // FORUM CHAT (Auto Delete 7 Hari & Hapus Sendiri)
+        // ============================================
+        var chatMessages = document.getElementById('chatMessages'), CHAT_KEY = 'karyaabadi_chat_db', CHAT_TTL = 7 * 24 * 60 * 60 * 1000;
         function loadMessages() {
             var stored = null; try { stored = localStorage.getItem(CHAT_KEY); } catch(e) {} var messages = []; if (stored) { try { messages = JSON.parse(stored); } catch(e) {} }
             var now = Date.now(); var validMessages = messages.filter(function(msg) { return (now - msg.timestamp) < CHAT_TTL; });
             if (validMessages.length !== messages.length) { try { localStorage.setItem(CHAT_KEY, JSON.stringify(validMessages)); } catch(e) {} }
-            if (validMessages.length === 0) { chatMessages.innerHTML = '<div class="text-center py-10" style="color: var(--text-muted)"><i class="fas fa-comments text-4xl mb-3"></i><p>Jadilah yang pertama memulai diskusi!</p><p class="text-xs mt-2">Pesan akan otomatis terhapus dalam 7 hari.</p></div>'; } 
-            else { chatMessages.innerHTML = validMessages.map(function(msg) { return '<div class="flex gap-3"><div class="w-10 h-10 bg-gradient-to-br ' + msg.color + ' rounded-full flex items-center justify-center flex-shrink-0 font-semibold text-sm text-white">' + msg.name.charAt(0).toUpperCase() + '</div><div class="flex-1 min-w-0"><div class="flex items-baseline gap-2 mb-1"><span class="font-semibold text-sm" style="color: var(--text-primary)">' + msg.name + '</span><span class="text-xs font-mono" style="color: var(--text-muted)">' + msg.time + '</span></div><div class="rounded-lg rounded-tl-none p-3 text-sm" style="background: var(--bg-elevated); color: var(--text-secondary)">' + msg.text + '</div></div></div>'; }).join(''); chatMessages.scrollTop = chatMessages.scrollHeight; }
+            if (validMessages.length === 0) { chatMessages.innerHTML = '<div class="text-center py-10" style="color: var(--text-muted)"><i class="fas fa-comments text-4xl mb-3"></i><p>Jadilah yang pertama memulai diskusi!</p></div>'; } 
+            else {
+                chatMessages.innerHTML = validMessages.map(function(msg) {
+                    var deleteBtn = (msg.userId === currentUserId) ? '<button onclick="deleteMessage(\'' + msg.id + '\')" class="ml-2 text-xs text-red-500 hover:text-red-400" title="Hapus Pesan"><i class="fas fa-trash-alt"></i></button>' : '';
+                    return '<div class="flex gap-3"><div class="w-10 h-10 bg-gradient-to-br ' + msg.color + ' rounded-full flex items-center justify-center flex-shrink-0 font-semibold text-sm text-white">' + msg.name.charAt(0).toUpperCase() + '</div><div class="flex-1 min-w-0"><div class="flex items-baseline gap-2 mb-1"><span class="font-semibold text-sm" style="color: var(--text-primary)">' + msg.name + '</span><span class="text-xs font-mono" style="color: var(--text-muted)">' + msg.time + '</span>' + deleteBtn + '</div><div class="rounded-lg rounded-tl-none p-3 text-sm text-justify" style="background: var(--bg-elevated); color: var(--text-secondary)">' + msg.text + '</div></div></div>';
+                }).join('');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
             document.getElementById('totalMessages').textContent = validMessages.length;
         }
         function sendMessage() {
             var nameInput = document.getElementById('userName'), input = document.getElementById('chatInput'), name = nameInput.value.trim() || 'Anonim', text = input.value.trim(); if (!text) return;
             var colors = ['from-red-600 to-red-800','from-blue-600 to-cyan-700','from-purple-600 to-pink-700','from-green-600 to-emerald-700','from-amber-600 to-orange-700'];
-            var newMsg = { name: name, text: text, time: 'Baru saja', color: colors[Math.floor(Math.random()*colors.length)], timestamp: Date.now() };
+            var newMsg = { id: 'msg_' + Date.now() + Math.random().toString(36).substr(2, 5), userId: currentUserId, name: name, text: text, time: 'Baru saja', color: colors[Math.floor(Math.random()*colors.length)], timestamp: Date.now() };
             var stored = null; try { stored = localStorage.getItem(CHAT_KEY); } catch(e) {} var userMsgs = []; if (stored) { try { userMsgs = JSON.parse(stored); } catch(e) {} }
             userMsgs.push(newMsg); try { localStorage.setItem(CHAT_KEY, JSON.stringify(userMsgs)); } catch(e) {}
             loadMessages(); input.value = ''; nameInput.value = name;
         }
-        function clearChat() { if (confirm('Hapus semua pesan Anda dari forum?')) { try { localStorage.removeItem(CHAT_KEY); } catch(e) {} loadMessages(); } }
+        function deleteMessage(id) {
+            if (confirm('Hapus pesan ini?')) {
+                var stored = null; try { stored = localStorage.getItem(CHAT_KEY); } catch(e) {} var messages = []; if (stored) { try { messages = JSON.parse(stored); } catch(e) {} }
+                var updatedMsgs = messages.filter(function(m) { return m.id !== id; });
+                try { localStorage.setItem(CHAT_KEY, JSON.stringify(updatedMsgs)); } catch(e) {}
+                loadMessages();
+            }
+        }
         loadMessages();
         
-        var PROJECT_KEY = 'karyaabadi_projects_14d_auto_delete', PROJECT_TTL = 14 * 24 * 60 * 60 * 1000;
-        function getAllProjects() { var stored = null; try { stored = localStorage.getItem(PROJECT_KEY); } catch(e) {} var userProjs = []; if (stored) { try { userProjs = JSON.parse(stored); } catch(e) {} } var now = Date.now(); var validProjs = userProjs.filter(function(p) { return (now - p.timestamp) < PROJECT_TTL; }); if (validProjs.length !== userProjs.length) { try { localStorage.setItem(PROJECT_KEY, JSON.stringify(validProjs)); } catch(e) {} } return validProjs; }
+        // ============================================
+        // FORUM PROJECT (Auto Delete 7 Hari & Hapus Sendiri)
+        // ============================================
+        var PROJECT_KEY = 'karyaabadi_projects_db', PROJECT_TTL = 7 * 24 * 60 * 60 * 1000;
+        function getAllProjects() {
+            var stored = null; try { stored = localStorage.getItem(PROJECT_KEY); } catch(e) {} var userProjs = []; if (stored) { try { userProjs = JSON.parse(stored); } catch(e) {} }
+            var now = Date.now(); var validProjs = userProjs.filter(function(p) { return (now - p.timestamp) < PROJECT_TTL; });
+            if (validProjs.length !== userProjs.length) { try { localStorage.setItem(PROJECT_KEY, JSON.stringify(validProjs)); } catch(e) {} } return validProjs;
+        }
         function renderProjects() {
             var grid = document.getElementById('projectGrid'), projects = getAllProjects(), statusColors = { 'Recruiting': 'background: rgba(234,179,8,0.15); color: #eab308; border: 1px solid rgba(234,179,8,0.3)', 'Active': 'background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3)' };
             if (projects.length === 0) { grid.innerHTML = '<div class="col-span-full text-center py-16" style="color: var(--text-muted)"><i class="fas fa-project-diagram text-5xl mb-4"></i><p class="text-lg">Belum ada project yang dibagikan.</p><p class="text-sm mt-2">Jadilah yang pertama membagikan project AI Anda!</p></div>'; return; }
             grid.innerHTML = projects.map(function(p, i) {
                 var memberDots = ''; for (var j = 0; j < Math.min(3, p.members); j++) { memberDots += '<div class="w-7 h-7 bg-gradient-to-br from-red-600 to-red-800 rounded-full border-2 flex items-center justify-center text-xs font-semibold text-white" style="border-color: var(--bg-card)">' + (j+1) + '</div>'; }
-                return '<div class="ai-card rounded-2xl p-6 flex flex-col h-full"><div class="flex items-start justify-between mb-3"><span class="badge font-mono" style="' + statusColors[p.status] + '">' + p.status + '</span><span class="text-xs font-mono" style="color: var(--text-muted)">' + p.category + '</span></div><h3 class="font-display font-bold text-lg mb-2" style="color: var(--text-primary)">' + p.title + '</h3><p class="text-sm mb-4 flex-1 text-justify" style="color: var(--text-secondary)">' + p.description + '</p><div class="mb-4"><div class="flex justify-between text-xs mb-1 font-mono"><span style="color: var(--text-muted)">Progress</span><span style="color: var(--red-primary)" class="font-semibold">' + p.progress + '%</span></div><div class="w-full h-2 rounded-full overflow-hidden" style="background: var(--bg-elevated)"><div class="h-full bg-gradient-to-r from-red-600 to-red-400 rounded-full" style="width:' + p.progress + '%"></div></div></div><div class="flex flex-wrap gap-1 mb-4">' + p.skills.map(function(s) { return '<span class="text-xs font-mono px-2 py-1 rounded" style="background: var(--bg-elevated); color: var(--text-secondary)">' + s + '</span>'; }).join('') + '</div><div class="rounded-xl p-4 mb-4" style="background: var(--bg-elevated)"><div class="text-center mb-3"><div class="text-xs font-mono uppercase tracking-wider mb-1" style="color: var(--text-muted)"><i class="fab fa-whatsapp text-green-500 mr-1"></i> Hubungi Pembuat Project</div></div><a href="https://wa.me/' + p.whatsapp + '?text=' + encodeURIComponent('Halo, saya tertarik bergabung dengan project "' + p.title + '"') + '" target="_blank" rel="noopener" class="wa-button w-full inline-flex items-center justify-center gap-2 py-3 rounded-lg font-semibold text-sm"><i class="fab fa-whatsapp text-lg"></i> Chat via WhatsApp</a></div><div class="flex items-center justify-between pt-4 border-t" style="border-color: var(--border-color)"><div class="flex items-center gap-2"><div class="flex -space-x-2">' + memberDots + '</div><span class="text-xs font-mono" style="color: var(--text-muted)">' + p.members + '/' + p.maxMembers + '</span></div></div><div class="mt-3 text-xs font-mono flex items-center gap-2" style="color: var(--text-muted)"><i class="fas fa-user-tie"></i> Leader: <span style="color: var(--text-secondary)">' + p.leader + '</span></div></div>';
+                var deleteBtn = (p.userId === currentUserId) ? '<button onclick="deleteProject(\'' + p.id + '\')" class="w-full mt-4 py-2 rounded-lg font-semibold text-sm border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-colors"><i class="fas fa-trash-alt mr-2"></i>Hapus Project Ini</button>' : '';
+                return '<div class="ai-card rounded-2xl p-6 flex flex-col h-full"><div class="flex items-start justify-between mb-3"><span class="badge font-mono" style="' + statusColors[p.status] + '">' + p.status + '</span><span class="text-xs font-mono" style="color: var(--text-muted)">' + p.category + '</span></div><h3 class="font-display font-bold text-lg mb-2" style="color: var(--text-primary)">' + p.title + '</h3><p class="text-sm mb-4 flex-1 text-justify" style="color: var(--text-secondary)">' + p.description + '</p><div class="mb-4"><div class="flex justify-between text-xs mb-1 font-mono"><span style="color: var(--text-muted)">Progress</span><span style="color: var(--red-primary)" class="font-semibold">' + p.progress + '%</span></div><div class="w-full h-2 rounded-full overflow-hidden" style="background: var(--bg-elevated)"><div class="h-full bg-gradient-to-r from-red-600 to-red-400 rounded-full" style="width:' + p.progress + '%"></div></div></div><div class="flex flex-wrap gap-1 mb-4">' + p.skills.map(function(s) { return '<span class="text-xs font-mono px-2 py-1 rounded" style="background: var(--bg-elevated); color: var(--text-secondary)">' + s + '</span>'; }).join('') + '</div><div class="rounded-xl p-4 mb-4" style="background: var(--bg-elevated)"><div class="text-center mb-3"><div class="text-xs font-mono uppercase tracking-wider mb-1" style="color: var(--text-muted)"><i class="fab fa-whatsapp text-green-500 mr-1"></i> Hubungi Pembuat Project</div></div><a href="https://wa.me/' + p.whatsapp + '?text=' + encodeURIComponent('Halo, saya tertarik bergabung dengan project "' + p.title + '"') + '" target="_blank" rel="noopener" class="wa-button w-full inline-flex items-center justify-center gap-2 py-3 rounded-lg font-semibold text-sm"><i class="fab fa-whatsapp text-lg"></i> Chat via WhatsApp</a></div><div class="flex items-center justify-between pt-4 border-t" style="border-color: var(--border-color)"><div class="flex items-center gap-2"><div class="flex -space-x-2">' + memberDots + '</div><span class="text-xs font-mono" style="color: var(--text-muted)">' + p.members + '/' + p.maxMembers + '</span></div></div><div class="mt-3 text-xs font-mono flex items-center gap-2" style="color: var(--text-muted)"><i class="fas fa-user-tie"></i> Leader: <span style="color: var(--text-secondary)">' + p.leader + '</span></div>' + deleteBtn + '</div>';
             }).join('');
         }
         renderProjects();
         function showCreateProject() { document.getElementById('createProjectModal').classList.remove('modal-hidden'); document.body.style.overflow = 'hidden'; }
         function closeCreateProject() { document.getElementById('createProjectModal').classList.add('modal-hidden'); document.body.style.overflow = ''; }
         function createProject(event) {
-            event.preventDefault(); var newProject = { title: document.getElementById('projName').value, category: document.getElementById('projCat').value, description: document.getElementById('projDesc').value, whatsapp: document.getElementById('projWA').value.replace(/\D/g, ''), leader: document.getElementById('projLeader').value, members: 1, maxMembers: parseInt(document.getElementById('projMembers').value), skills: document.getElementById('projSkills').value.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; }), status: 'Recruiting', progress: 5, timestamp: Date.now() };
+            event.preventDefault(); var newProject = { id: 'proj_' + Date.now() + Math.random().toString(36).substr(2, 5), userId: currentUserId, title: document.getElementById('projName').value, category: document.getElementById('projCat').value, description: document.getElementById('projDesc').value, whatsapp: document.getElementById('projWA').value.replace(/\D/g, ''), leader: document.getElementById('projLeader').value, members: 1, maxMembers: parseInt(document.getElementById('projMembers').value), skills: document.getElementById('projSkills').value.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; }), status: 'Recruiting', progress: 5, timestamp: Date.now() };
             var stored = null; try { stored = localStorage.getItem(PROJECT_KEY); } catch(e) {} var projs = []; if (stored) { try { projs = JSON.parse(stored); } catch(e) {} }
             projs.unshift(newProject); try { localStorage.setItem(PROJECT_KEY, JSON.stringify(projs)); } catch(e) {}
             closeCreateProject(); renderProjects(); event.target.reset();
         }
-        document.getElementById('createProjectModal').addEventListener('click', function(e) { if (e.target.id === 'createProjectModal') closeCreateProject(); });
+        function deleteProject(id) {
+            if (confirm('Hapus project ini?')) {
+                var stored = null; try { stored = localStorage.getItem(PROJECT_KEY); } catch(e) {} var projs = []; if (stored) { try { projs = JSON.parse(stored); } catch(e) {} }
+                var updatedProjs = projs.filter(function(p) { return p.id !== id; });
+                try { localStorage.setItem(PROJECT_KEY, JSON.stringify(updatedProjs)); } catch(e) {}
+                renderProjects();
+            }
+        }
+        
         function showLegalModal(title, key) { document.getElementById('legalModalTitle').innerText = title; document.getElementById('legalModalBody').innerHTML = legalContents[key]; document.getElementById('legalModal').classList.remove('modal-hidden'); document.body.style.overflow = 'hidden'; }
         function closeLegalModal() { document.getElementById('legalModal').classList.add('modal-hidden'); document.body.style.overflow = ''; }
         document.getElementById('legalModal').addEventListener('click', function(e) { if (e.target.id === 'legalModal') closeLegalModal(); });
