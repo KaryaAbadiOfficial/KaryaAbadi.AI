@@ -126,7 +126,7 @@
                     </button>
                     <a href="#direktori" class="hidden lg:inline-flex btn-shine items-center gap-2 bg-red-600 hover:bg-red-700 px-5 py-2.5 rounded-lg font-semibold text-sm red-glow text-white">Mulai Eksplorasi</a>
                     <button class="lg:hidden p-2 z-[70]" id="mobileMenuBtn" aria-label="Menu" style="color: var(--text-primary); cursor: pointer; background: transparent; border: none;">
-                        <i class="fas fa-bars text-xl"></i>
+                        <i class="fas fa-bars text-xl" id="mobileMenuIcon"></i>
                     </button>
                 </div>
             </div>
@@ -139,7 +139,7 @@
                     <a href="#forum" class="mobile-link px-4 py-3 rounded-lg flex items-center gap-3" style="color: var(--text-secondary)" onmouseover="this.style.background='var(--bg-elevated)';this.style.color='var(--text-primary)'" onmouseout="this.style.background='transparent';this.style.color='var(--text-secondary)'"><i class="fas fa-comments w-5"></i> Forum Chat</a>
                     <a href="#project" class="mobile-link px-4 py-3 rounded-lg flex items-center gap-3" style="color: var(--text-secondary)" onmouseover="this.style.background='var(--bg-elevated)';this.style.color='var(--text-primary)'" onmouseout="this.style.background='transparent';this.style.color='var(--text-secondary)'"><i class="fas fa-project-diagram w-5"></i> Project</a>
                     <a href="#tentang" class="mobile-link px-4 py-3 rounded-lg flex items-center gap-3" style="color: var(--text-secondary)" onmouseover="this.style.background='var(--bg-elevated)';this.style.color='var(--text-primary)'" onmouseout="this.style.background='transparent';this.style.color='var(--text-secondary)'"><i class="fas fa-info-circle w-5"></i> Tentang</a>
-                </nav>
+                </div>
             </div>
         </div>
     </nav>
@@ -659,30 +659,43 @@
         
         document.getElementById('backToTop').addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
         
-        // PERBAIKAN MENU HAMBURGER: BISA TOGGLE (BUKA/TUTUP)
-        document.getElementById('mobileMenuBtn').addEventListener('click', function(e) {
-            e.stopPropagation();
-            var menu = document.getElementById('mobileMenu');
-            if (menu.classList.contains('open')) {
-                menu.classList.add('modal-hidden');
-                menu.classList.remove('open');
+        // PERBAIKAN MENU HAMBURGER: TOGGLE BUKA/TUTUP TANPA ERROR
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+
+        function toggleMobileMenu() {
+            if (mobileMenu.classList.contains('open')) {
+                mobileMenu.classList.add('modal-hidden');
+                mobileMenu.classList.remove('open');
+                mobileMenuIcon.classList.remove('fa-times');
+                mobileMenuIcon.classList.add('fa-bars');
             } else {
-                menu.classList.remove('modal-hidden');
-                menu.classList.add('open');
+                mobileMenu.classList.remove('modal-hidden');
+                mobileMenu.classList.add('open');
+                mobileMenuIcon.classList.remove('fa-bars');
+                mobileMenuIcon.classList.add('fa-times');
             }
-        });
-        document.getElementById('closeMobileMenu').addEventListener('click', function(e) {
+        }
+
+        mobileMenuBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            document.getElementById('mobileMenu').classList.add('modal-hidden');
-            document.getElementById('mobileMenu').classList.remove('open');
+            toggleMobileMenu();
         });
-        // Tutup menu saat klik di luar
+
+        // Tutup menu otomatis saat link di dalam menu diklik
+        document.querySelectorAll('.mobile-link').forEach(function(link) {
+            link.addEventListener('click', function() {
+                if (mobileMenu.classList.contains('open')) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        // Tutup menu saat klik di luar area menu
         document.addEventListener('click', function(e) {
-            var menu = document.getElementById('mobileMenu');
-            var btn = document.getElementById('mobileMenuBtn');
-            if (!menu.contains(e.target) && !btn.contains(e.target) && menu.classList.contains('open')) {
-                menu.classList.add('modal-hidden');
-                menu.classList.remove('open');
+            if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target) && mobileMenu.classList.contains('open')) {
+                toggleMobileMenu();
             }
         });
         
