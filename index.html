@@ -101,9 +101,9 @@
 </head>
 <body>
     
-    <nav class="fixed top-0 left-0 right-0 z-50 border-b" id="navbar" style="background: var(--nav-bg); border-color: var(--border-color);">
+    <nav class="fixed top-0 left-0 right-0 z-[60] border-b" id="navbar" style="background: var(--nav-bg); border-color: var(--border-color);">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 md:h-20">
+            <div class="flex items-center justify-between h-16 md:h-20 relative">
                 <a href="#beranda" class="flex items-center gap-3 group">
                     <div class="logo-wrapper">
                         <img src="https://z-cdn-media.chatglm.cn/files/18ab3fc6-ed5b-4a69-9ba0-50961b04299b.png?auth_key=1885560969-b6cad73974a94bfe8cbf7232c8edbc6a-0-3e76e291785f2463ff750c0056cd9a57" alt="Karya Abadi AI" class="logo-img">
@@ -125,19 +125,15 @@
                         <i class="fas fa-sun" id="themeIcon" style="color: var(--text-primary)"></i>
                     </button>
                     <a href="#direktori" class="hidden lg:inline-flex btn-shine items-center gap-2 bg-red-600 hover:bg-red-700 px-5 py-2.5 rounded-lg font-semibold text-sm red-glow text-white">Mulai Eksplorasi</a>
-                    <button class="lg:hidden p-2" id="mobileMenuBtn" aria-label="Menu" style="color: var(--text-primary)">
+                    <button class="lg:hidden p-2 z-[70]" id="mobileMenuBtn" aria-label="Menu" style="color: var(--text-primary); cursor: pointer; background: transparent; border: none;">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
         </div>
-        <div class="mobile-menu fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] z-50 lg:hidden modal-hidden" id="mobileMenu" style="background: var(--bg-secondary); border-left: 1px solid var(--border-color);">
-            <div class="p-6">
-                <div class="flex items-center justify-between mb-8">
-                    <span class="font-display font-bold text-lg" style="color: var(--text-primary)">Menu</span>
-                    <button id="closeMobileMenu" style="color: var(--text-muted)"><i class="fas fa-times text-xl"></i></button>
-                </div>
-                <nav class="flex flex-col gap-2">
+        <div class="mobile-menu fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] z-[80] lg:hidden modal-hidden" id="mobileMenu" style="background: var(--bg-secondary); border-left: 1px solid var(--border-color);">
+            <div class="p-6 pt-20">
+                <div class="flex flex-col gap-2">
                     <a href="#beranda" class="mobile-link px-4 py-3 rounded-lg flex items-center gap-3" style="color: var(--text-secondary)" onmouseover="this.style.background='var(--bg-elevated)';this.style.color='var(--text-primary)'" onmouseout="this.style.background='transparent';this.style.color='var(--text-secondary)'"><i class="fas fa-home w-5"></i> Beranda</a>
                     <a href="#direktori" class="mobile-link px-4 py-3 rounded-lg flex items-center gap-3" style="color: var(--text-secondary)" onmouseover="this.style.background='var(--bg-elevated)';this.style.color='var(--text-primary)'" onmouseout="this.style.background='transparent';this.style.color='var(--text-secondary)'"><i class="fas fa-th-large w-5"></i> Direktori AI</a>
                     <a href="#forum" class="mobile-link px-4 py-3 rounded-lg flex items-center gap-3" style="color: var(--text-secondary)" onmouseover="this.style.background='var(--bg-elevated)';this.style.color='var(--text-primary)'" onmouseout="this.style.background='transparent';this.style.color='var(--text-secondary)'"><i class="fas fa-comments w-5"></i> Forum Chat</a>
@@ -237,7 +233,7 @@
     <section id="forum" class="py-12 lg:py-28 relative border-y" style="background: var(--bg-secondary); border-color: var(--border-color)">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-8 lg:mb-12 fade-in">
-                <div class="badge mb-4" style="background: rgba(220,38,38,0.1); border:1px solid rgba(220,38,38,0.3); color: var(--red-primary)"><i class="fas fa-comments text-xs"></i> FORUM DISKUSI</div>
+                <div class="badge mb-4" style="background: rgba(220.38,38,0.1); border:1px solid rgba(220.38,38,0.3); color: var(--red-primary)"><i class="fas fa-comments text-xs"></i> FORUM DISKUSI</div>
                 <h2 class="font-display text-2xl sm:text-4xl lg:text-5xl font-extrabold mb-4" style="color: var(--text-primary)">Forum <span class="red-gradient">Chat Pengguna AI</span></h2>
                 <p class="max-w-2xl mx-auto text-sm sm:text-base text-justify" style="color: var(--text-secondary)">Bagikan pengalaman, tips, dan pertanyaan Anda tentang penggunaan AI. Berkolaborasi langsung di website tanpa perlu registrasi.</p>
             </div>
@@ -281,7 +277,7 @@
                                     <button onclick="sendMessage()" class="bg-red-600 hover:bg-red-700 px-4 sm:px-6 py-2.5 rounded-lg font-semibold text-sm red-glow flex items-center gap-2 text-white"><i class="fas fa-paper-plane"></i><span class="hidden sm:inline">Kirim</span></button>
                                 </div>
                             </div>
-                            <div class="mt-2 flex items-center gap-2 text-xs font-mono" style="color: var(--text-muted)"><i class="fas fa-shield-alt"></i> Jadilah sopan dan konstruktif.</div>
+                            <div class="mt-2 flex items-center gap-2 text-xs font-mono" style="color: var(--text-muted)"><i class="fas fa-shield-alt"></i> Jadilah sopan. Kata kasar/SARA otomatis diblokir.</div>
                         </div>
                     </div>
                 </div>
@@ -293,7 +289,7 @@
         <div class="absolute inset-0 grid-bg opacity-50 pointer-events-none"></div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-8 lg:mb-12 fade-in">
-                <div class="badge mb-4" style="background: rgba(220,38,38,0.1); border:1px solid rgba(220,38,38,0.3); color: var(--red-primary)"><i class="fas fa-project-diagram text-xs"></i> KOLABORASI PROJECT</div>
+                <div class="badge mb-4" style="background: rgba(220.38,38,0.1); border:1px solid rgba(220.38,38,0.3); color: var(--red-primary)"><i class="fas fa-project-diagram text-xs"></i> KOLABORASI PROJECT</div>
                 <h2 class="font-display text-2xl sm:text-4xl lg:text-5xl font-extrabold mb-4" style="color: var(--text-primary)">Forum <span class="red-gradient">Project Kolaborasi</span></h2>
                 <p class="max-w-2xl mx-auto text-sm sm:text-base text-justify" style="color: var(--text-secondary)">Bagikan profil WhatsApp Anda dan jelaskan project yang sedang Anda kerjakan agar pengunjung lain bisa menghubungi dan bergabung.</p>
             </div>
@@ -316,7 +312,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div class="fade-in text-center">
-                    <div class="badge mb-4" style="background: rgba(220,38,38,0.1); border:1px solid rgba(220,38,38,0.3); color: var(--red-primary)"><i class="fas fa-info-circle text-xs"></i> TENTANG KAMI</div>
+                    <div class="badge mb-4" style="background: rgba(220.38,38,0.1); border:1px solid rgba(220.38,38,0.3); color: var(--red-primary)"><i class="fas fa-info-circle text-xs"></i> TENTANG KAMI</div>
                     <h2 class="font-display text-2xl sm:text-4xl lg:text-5xl font-extrabold mb-6" style="color: var(--text-primary)">Visi <span class="red-gradient">Karya Abadi AI</span></h2>
                     <p class="mb-6 leading-relaxed text-sm sm:text-base text-justify" style="color: var(--text-secondary)">Karya Abadi AI hadir sebagai platform informasi AI terlengkap di Indonesia. Kami berkomitmen menyediakan referensi tools AI yang akurat, up-to-date, dan mudah diakses oleh semua kalangan—dari pemula hingga profesional.</p>
                     <p class="mb-8 leading-relaxed text-sm sm:text-base text-justify" style="color: var(--text-secondary)">Dengan forum diskusi dan kolaborasi project, kami membangun ekosistem di mana pengguna AI dapat saling berbagi pengalaman, belajar, dan berkarya bersama.</p>
@@ -340,13 +336,13 @@
                 </div>
                 <div class="fade-in">
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="rounded-2xl p-6 text-center" style="background: linear-gradient(135deg, rgba(220,38,38,0.15), transparent); border: 1px solid rgba(220,38,38,0.3)"><div class="font-display text-4xl font-bold red-gradient mb-1">100%</div><div class="text-sm" style="color: var(--text-secondary)">Gratis Diakses</div></div>
+                        <div class="rounded-2xl p-6 text-center" style="background: linear-gradient(135deg, rgba(220.38,38,0.15), transparent); border: 1px solid rgba(220.38,38,0.3)"><div class="font-display text-4xl font-bold red-gradient mb-1">100%</div><div class="text-sm" style="color: var(--text-secondary)">Gratis Diakses</div></div>
                         <div class="themed-card rounded-2xl p-6 text-center"><div class="font-display text-4xl font-bold mb-1" style="color: var(--text-primary)">24/7</div><div class="text-sm" style="color: var(--text-secondary)">Selalu Online</div></div>
                         <div class="themed-card rounded-2xl p-6 text-center"><div class="font-display text-4xl font-bold mb-1" style="color: var(--text-primary)">60+</div><div class="text-sm" style="color: var(--text-secondary)">AI Tools Listed</div></div>
-                        <div class="rounded-2xl p-6 text-center" style="background: linear-gradient(135deg, rgba(220,38,38,0.15), transparent); border: 1px solid rgba(220,38,38,0.3)"><div class="font-display text-4xl font-bold red-gradient mb-1">10K+</div><div class="text-sm" style="color: var(--text-secondary)">Anggota Komunitas</div></div>
+                        <div class="rounded-2xl p-6 text-center" style="background: linear-gradient(135deg, rgba(220.38,38,0.15), transparent); border: 1px solid rgba(220.38,38,0.3)"><div class="font-display text-4xl font-bold red-gradient mb-1">10K+</div><div class="text-sm" style="color: var(--text-secondary)">Anggota Komunitas</div></div>
                     </div>
                     <div class="mt-4 themed-card rounded-2xl p-6 sm:p-8 text-center flex flex-col items-center">
-                        <div class="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 mb-4" style="background: rgba(220,38,38,0.15)">
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 mb-4" style="background: rgba(220.38,38,0.15)">
                             <i class="fas fa-quote-left text-red-500 text-2xl"></i>
                         </div>
                         <p class="italic mb-3 text-base sm:text-lg" style="color: var(--text-secondary); max-width: 600px;">"AI bukan tentang menggantikan manusia, tetapi memberdayakan manusia untuk berkarya lebih abadi."</p>
@@ -441,31 +437,31 @@
     
     <script>
         // ============================================
-        // 1. DATA AI (DIPERLUAS DENGAN DAFTAR DARI DOKUMEN)
+        // 1. DATA AI (DOMAIN DIPERBAIKI UNTUK LOGO RESMI PRODUK)
         // ============================================
         const aiDatabase = [
             { name:"Aider", category:"code", logoSlug:"", domain:"aider.chat", shortDesc:"AI pair programming di terminal.", link:"https://aider.chat", functions:["Edit kode langsung di terminal.","Bekerja dengan git secara otomatis.","Refactor dan debugging."] },
-            { name:"Amazon Q", category:"text", logoSlug:"amazonaws", domain:"aws.amazon.com", shortDesc:"Asisten AI dari AWS untuk bisnis.", link:"https://aws.amazon.com/q", functions:["Menjawab pertanyaan dari data perusahaan.","Generate kode dan troubleshooting.","Meringkas dokumen panjang."] },
+            { name:"Amazon Q", category:"text", logoSlug:"", domain:"aws.amazon.com", shortDesc:"Asisten AI dari AWS untuk bisnis.", link:"https://aws.amazon.com/q", functions:["Menjawab pertanyaan dari data perusahaan.","Generate kode dan troubleshooting.","Meringkas dokumen panjang."] },
             { name:"Blackbox AI", category:"code", logoSlug:"", domain:"useblackbox.io", shortDesc:"AI coding assistant untuk developer.", link:"https://www.useblackbox.io", functions:["Autocomplete kode real-time.","Cari dan reuse kode dari repositori.","Debugging otomatis."] },
             { name:"Canva AI", category:"image", logoSlug:"canva", domain:"canva.com", shortDesc:"Suite AI design tools dalam Canva.", link:"https://www.canva.com/ai", functions:["Magic Write (AI copywriter).","Text to Image generation.","Magic Edit dan Eraser."] },
             { name:"Character.AI", category:"text", logoSlug:"", domain:"character.ai", shortDesc:"Chat dengan karakter AI fiksi/nyata.", link:"https://character.ai", functions:["Roleplay dengan AI karakter.","Membuat custom AI bot.","Interaksi sosial dan hiburan."] },
             { name:"ChatGPT", category:"text", logoSlug:"openai", domain:"openai.com", shortDesc:"AI chatbot terpopuler dengan GPT-4o.", link:"https://chat.openai.com", functions:["Menjawab pertanyaan kompleks.","Menulis dan mengedit konten.","Analisis data dan gambar."] },
             { name:"ChatSonic", category:"marketing", logoSlug:"writesonic", domain:"writesonic.com", shortDesc:"AI chatbot dengan akses internet real-time.", link:"https://writesonic.com/chat", functions:["Riset konten real-time.","Generate gambar digital art.","Voice command dan TTS."] },
-            { name:"Claude", category:"text", logoSlug:"anthropic", domain:"claude.ai", shortDesc:"AI assistant dengan reasoning mendalam.", link:"https://claude.ai", functions:["Analisis dokumen 200K token.","Penulisan kreatif.","Coding dan debugging."] },
+            { name:"Claude", category:"text", logoSlug:"", domain:"claude.ai", shortDesc:"AI assistant dengan reasoning mendalam.", link:"https://claude.ai", functions:["Analisis dokumen 200K token.","Penulisan kreatif.","Coding dan debugging."] },
             { name:"Cline", category:"code", logoSlug:"", domain:"cline.bot", shortDesc:"AI coding agent untuk VS Code.", link:"https://cline.bot", functions:["Otonom merubah multiple file.","Menjalankan terminal command.","Analisis error log."] },
             { name:"Codeium", category:"code", logoSlug:"", domain:"codeium.com", shortDesc:"AI coding assistant gratis alternatif Copilot.", link:"https://codeium.com", functions:["Autocomplete kode cepat.","Chat AI di IDE.","Gratis untuk individual."] },
             { name:"Cursor", category:"code", logoSlug:"", domain:"cursor.sh", shortDesc:"AI-first code editor.", link:"https://cursor.sh", functions:["Chat dengan codebase.","Generate kode natural language.","Multi-file editing."] },
             { name:"DALL-E 3", category:"image", logoSlug:"openai", domain:"openai.com", shortDesc:"AI image generator dari OpenAI.", link:"https://openai.com/dall-e-3", functions:["Text-to-image akurat.","Pemahaman prompt detail.","Integrasi ChatGPT."] },
             { name:"DeepL", category:"productivity", logoSlug:"deepl", domain:"deepl.com", shortDesc:"AI translator kualitas terjemahan terbaik.", link:"https://www.deepl.com", functions:["Terjemahan multi-bahasa natural.","DeepL Write assistant.","Document translation."] },
             { name:"DeepSeek", category:"text", logoSlug:"", domain:"deepseek.com", shortDesc:"AI open-source performa tinggi.", link:"https://www.deepseek.com", functions:["Chat AI reasoning tinggi.","Coding assistance.","Math problem solving."] },
-            { name:"Devin", category:"code", logoSlug:"cognition", domain:"devin.ai", shortDesc:"AI software engineer otonom.", link:"https://devin.ai", functions:["Merencanakan dan mengeksekusi project coding.","Memperbaiki bug otomatis.","Deploy aplikasi."] },
+            { name:"Devin", category:"code", logoSlug:"", domain:"devin.ai", shortDesc:"AI software engineer otonom.", link:"https://devin.ai", functions:["Merencanakan dan mengeksekusi project coding.","Memperbaiki bug otomatis.","Deploy aplikasi."] },
             { name:"Dreamina", category:"image", logoSlug:"", domain:"dreamina.jianying.com", shortDesc:"AI image & video generator dari CapCut.", link:"https://dreamina.jianying.com", functions:["Text-to-image berkualitas.","Image-to-video animasi.","Effect visual kreatif."] },
             { name:"Figma AI", category:"productivity", logoSlug:"figma", domain:"figma.com", shortDesc:"AI design assistant di Figma.", link:"https://www.figma.com", functions:["Generate UI design dari teks.","Rename layer otomatis.","Remove background."] },
             { name:"FLUX", category:"image", logoSlug:"blackforestlabs", domain:"blackforestlabs.ai", shortDesc:"Image generator fotorealistik terbaru.", link:"https://blackforestlabs.ai", functions:["Kualitas fotorealistik tinggi.","Pemahaman prompt kompleks.","Open source (schnell)."] },
             { name:"Gamma", category:"productivity", logoSlug:"gamma", domain:"gamma.app", shortDesc:"AI presentation & document generator.", link:"https://gamma.app", functions:["Generate presentasi dari prompt.","Auto-design slide.","Export PDF/PPT."] },
             { name:"Gemini", category:"text", logoSlug:"googlegemini", domain:"gemini.google.com", shortDesc:"AI multimodal Google.", link:"https://gemini.google.com", functions:["Pemrosesan multimodal.","Integrasi Google Workspace.","Akses real-time internet."] },
             { name:"GitHub Copilot", category:"code", logoSlug:"github", domain:"github.com", shortDesc:"AI pair programmer dari GitHub.", link:"https://github.com/features/copilot", functions:["Code completion real-time.","Generate fungsi.","Bug fixing."] },
-            { name:"Grok", category:"text", logoSlug:"x", domain:"x.ai", shortDesc:"AI dari xAI dengan akses X real-time.", link:"https://grok.x.ai", functions:["Akses info real-time X.","Humor mode.","Coding assistance."] },
+            { name:"Grok", category:"text", logoSlug:"", domain:"x.ai", shortDesc:"AI dari xAI dengan akses X real-time.", link:"https://grok.x.ai", functions:["Akses info real-time X.","Humor mode.","Coding assistance."] },
             { name:"Harvey AI", category:"productivity", logoSlug:"", domain:"harvey.ai", shortDesc:"AI khusus untuk bidang hukum.", link:"https://www.harvey.ai", functions:["Analisis kontrak legal.","Riset kasus hukum.","Drafting dokumen hukum."] },
             { name:"HuggingChat", category:"text", logoSlug:"huggingface", domain:"huggingface.co", shortDesc:"AI chatbot open-source dari Hugging Face.", link:"https://huggingface.co/chat", functions:["Akses model open-source terbaik.","Web search integration.","Gratis tanpa limit."] },
             { name:"Ideogram", category:"image", logoSlug:"ideogram", domain:"ideogram.ai", shortDesc:"AI image generator unggul dalam teks.", link:"https://ideogram.ai", functions:["Rendering teks akurat.","Logo design.","Tipografi seni."] },
@@ -479,7 +475,7 @@
             { name:"Midjourney", category:"image", logoSlug:"", domain:"midjourney.com", shortDesc:"AI image generator kualitas seni tinggi.", link:"https://www.midjourney.com", functions:["Generasi gambar seni tinggi.","Berbagai style seni.","Upscaling resolusi."] },
             { name:"Mistral", category:"text", logoSlug:"mistralai", domain:"mistral.ai", shortDesc:"AI model open-source Eropa.", link:"https://mistral.ai", functions:["Model ringan dan efisien.","Expert mix (MoE).","API fleksibel."] },
             { name:"NightCafe", category:"image", logoSlug:"", domain:"nightcafe.studio", shortDesc:"Komunitas AI art generator.", link:"https://creator.nightcafe.studio", functions:["Multiple algoritma AI.","Komunitas seniman AI.","Daily challenge."] },
-            { name:"NotebookLM", category:"productivity", logoSlug:"google", domain:"notebooklm.google.com", shortDesc:"AI research assistant dari Google.", link:"https://notebooklm.google.com", functions:["Riset dari dokumen upload.","Meringkas sumber multiple.","Audio overview podcast."] },
+            { name:"NotebookLM", category:"productivity", logoSlug:"", domain:"notebooklm.google.com", shortDesc:"AI research assistant dari Google.", link:"https://notebooklm.google.com", functions:["Riset dari dokumen upload.","Meringkas sumber multiple.","Audio overview podcast."] },
             { name:"Notion AI", category:"productivity", logoSlug:"notion", domain:"notion.so", shortDesc:"AI assistant di Notion.", link:"https://www.notion.so/product/ai", functions:["Auto-generate konten.","Summarize notes.","Q&A workspace."] },
             { name:"Otter.ai", category:"productivity", logoSlug:"otterai", domain:"otter.ai", shortDesc:"AI meeting assistant transkripsi.", link:"https://otter.ai", functions:["Transkripsi real-time.","Summary meeting.","Integrasi Zoom/Meet."] },
             { name:"Perplexity", category:"productivity", logoSlug:"perplexity", domain:"perplexity.ai", shortDesc:"AI search engine dengan sitasi.", link:"https://www.perplexity.ai", functions:["AI search ber-sitasi.","Akses real-time internet.","Multi-source synthesis."] },
@@ -498,7 +494,7 @@
             { name:"Tome", category:"productivity", logoSlug:"tome", domain:"tome.app", shortDesc:"AI storytelling & presentasi.", link:"https://tome.app", functions:["Generate slide naratif.","Integrasi gambar 3D.","Layout otomatis."] },
             { name:"Udio", category:"audio", logoSlug:"", domain:"udio.com", shortDesc:"AI music generator kualitas studio.", link:"https://www.udio.com", functions:["Kualitas audio tinggi.","Multi-genre musik.","Vocal & instrumental."] },
             { name:"Vercel AI SDK", category:"code", logoSlug:"vercel", domain:"vercel.com", shortDesc:"SDK untuk build AI apps.", link:"https://sdk.vercel.ai", functions:["Integrasi model AI ke web.","React/Next.js support.","Streaming UI."] },
-            { name:"Veo", category:"video", logoSlug:"googledrive", domain:"deepmind.google/technologies/veo", shortDesc:"AI video generator Google 1080p.", link:"https://deepmind.google/technologies/veo", functions:["Text-to-video 1080p.","Pemahaman sinematik.","Kontrol kamera virtual."] },
+            { name:"Veo", category:"video", logoSlug:"", domain:"deepmind.google", shortDesc:"AI video generator Google 1080p.", link:"https://deepmind.google/technologies/veo", functions:["Text-to-video 1080p.","Pemahaman sinematik.","Kontrol kamera virtual."] },
             { name:"Whisper", category:"audio", logoSlug:"openai", domain:"openai.com", shortDesc:"AI speech recognition OpenAI.", link:"https://openai.com/research/whisper", functions:["Transkripsi multibahasa.","Terjemahan bahasa.","Gratis & open-source."] },
             { name:"Windsurf", category:"code", logoSlug:"", domain:"codeium.com/windsurf", shortDesc:"AI IDE agentic dari Codeium.", link:"https://codeium.com/windsurf", functions:["Agents otonom di IDE.","Context codebase penuh.","Collaborative coding."] },
             { name:"Writesonic", category:"marketing", logoSlug:"writesonic", domain:"writesonic.com", shortDesc:"AI writer untuk SEO & marketing.", link:"https://writesonic.com", functions:["Artikel SEO otomatis.","Ad copy generation.","Chatsonic real-time."] },
@@ -515,21 +511,68 @@
         };
 
         // ============================================
-        // 2. LOGIKA DIREKTORI AI (DIPISAH AGAR TIDAK BENTROK)
+        // 2. FILTER KATA KASAR / TIDAK PANTAS
+        // ============================================
+        const badWords = ["anjing", "kontol", "memek", "babi", "bangsat", "fuck", "shit", "bitch", "slut", "whore", "porn", "bokep", "ngentot", "ngewe", "pepek", "titit", "jembut", "pantek", "puki", "lanci", "bencong", "banci", "negro", "nigger", "faggot", "dyke", "retard", "spastic", "midget", "kraut", "gook", "chink", "jap", "nip", "wop", "kike", "hymie", "wetback", "towelhead", "raghead", "camel jockey", "jungle bunny", "porch monkey", "spook", "coon", "sambo", "uncle tom", "pickaninny", "golliwog", "cunt", "dick", "cock", "prick", "asshole", "arsehole", "bastard", "bollocks", "bullshit", "crap", "damn", "damnit", "goddamn", "hell", "jackass", "jerk", "motherfucker", "piss", "pissed", "prick", "pussy", "slut", "twat", "wank", "wanker"];
+        
+        function containsBadWords(text) {
+            if(!text) return false;
+            var lowerText = text.toLowerCase();
+            for (var i = 0; i < badWords.length; i++) {
+                if (lowerText.indexOf(badWords[i]) !== -1) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // ============================================
+        // 3. LOGIKA DIREKTORI AI
         // ============================================
         var currentCategory = 'all', currentSearch = '', searchHistory = [];
         try { var storedHistory = localStorage.getItem('karyaabadi_search_history'); if (storedHistory) searchHistory = JSON.parse(storedHistory); } catch(e) {}
 
-        function handleLogoError(img, initial, domain) {
-            if (img.dataset.retried == '2') { img.style.display = 'none'; var span = document.createElement('span'); span.className = 'fallback'; span.style.color = '#000000'; span.textContent = initial; img.parentElement.appendChild(span); } 
-            else if (img.dataset.retried == '1') { img.dataset.retried = '2'; img.src = 'https://www.google.com/s2/favicons?domain=' + domain + '&sz=128'; } 
-            else { img.dataset.retried = '1'; img.src = 'https://logo.clearbit.com/' + domain; }
+        // LOGIC FIX: Prioritaskan Clearbit (Domain Resmi) -> Google Favicon -> SimpleIcons
+        function handleLogoError(img, initial, domain, slug) {
+            var step = img.dataset.retried || '0';
+            img.dataset.retried = (parseInt(step) + 1).toString();
+            
+            if (img.dataset.retried == '1') {
+                // Fallback 1: Google Favicon (high res, gets actual site logo)
+                if (domain) img.src = 'https://www.google.com/s2/favicons?domain=' + domain + '&sz=128';
+                else if (slug) img.src = 'https://cdn.simpleicons.org/' + slug;
+                else fallbackToText(img, initial);
+            } else if (img.dataset.retried == '2') {
+                // Fallback 2: SimpleIcons (vector brand logo)
+                if (slug) img.src = 'https://cdn.simpleicons.org/' + slug;
+                else fallbackToText(img, initial);
+            } else {
+                // Fallback 3: Text
+                fallbackToText(img, initial);
+            }
+        }
+        
+        function fallbackToText(img, initial) {
+            img.style.display = 'none'; 
+            var span = document.createElement('span'); 
+            span.className = 'fallback'; 
+            span.style.color = '#000000'; 
+            span.textContent = initial; 
+            img.parentElement.appendChild(span);
         }
         
         function getLogoHTML(ai) {
             var initial = ai.name.charAt(0).toUpperCase();
-            var logoUrl = ai.logoSlug ? 'https://cdn.simpleicons.org/' + ai.logoSlug : 'https://logo.clearbit.com/' + ai.domain;
-            return '<div class="brand-logo-box"><img src="' + logoUrl + '" alt="' + ai.name + '" loading="lazy" decoding="async" onerror="handleLogoError(this, \'' + initial + '\', \'' + ai.domain + '\')"></div>';
+            var logoUrl = '';
+            
+            // Prioritize Clearbit for actual website logos (e.g., claude.ai sunburst)
+            if (ai.domain) {
+                logoUrl = 'https://logo.clearbit.com/' + ai.domain;
+            } else if (ai.logoSlug) {
+                logoUrl = 'https://cdn.simpleicons.org/' + ai.logoSlug;
+            }
+            
+            return '<div class="brand-logo-box"><img src="' + logoUrl + '" alt="' + ai.name + '" loading="lazy" decoding="async" onerror="handleLogoError(this, \'' + initial + '\', \'' + (ai.domain || '') + '\', \'' + (ai.logoSlug || '') + '\')"></div>';
         }
         
         function renderAICards() {
@@ -567,8 +610,16 @@
         function showAIDetail(index) {
             var ai = aiDatabase[index], modal = document.getElementById('aiModal'), content = document.getElementById('aiModalContent');
             var initial = ai.name.charAt(0).toUpperCase();
-            var logoUrl = ai.logoSlug ? 'https://cdn.simpleicons.org/' + ai.logoSlug : 'https://logo.clearbit.com/' + ai.domain;
-            content.innerHTML = '<div class="p-6 sm:p-8 relative"><button onclick="closeModal(\'aiModal\')" class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: var(--bg-elevated); color: var(--text-primary)"><i class="fas fa-times"></i></button><div class="flex flex-col items-center text-center mt-4 mb-8"><div class="brand-logo-box mb-5" style="width: 72px; height: 72px; border-radius: 18px; padding: 10px;"><img src="' + logoUrl + '" alt="' + ai.name + '" style="width: 100%; height: 100%; object-fit: contain;" onerror="handleLogoError(this, \'' + initial + '\', \'' + ai.domain + '\')"></div><h3 class="font-display text-2xl font-bold mb-2" style="color: var(--text-primary)">' + ai.name + '</h3><span class="text-xs font-mono px-3 py-1 rounded-full uppercase" style="background: var(--bg-elevated); color: var(--text-muted)">' + ai.category + '</span></div><div class="mb-8"><h4 class="font-semibold text-sm uppercase tracking-wider mb-4 text-center" style="color: var(--text-primary)"><i class="fas fa-list-check text-red-500 mr-2"></i>Fungsi & Kegunaan</h4><div class="space-y-3">' + ai.functions.map(function(f) { return '<div class="flex items-start gap-3 rounded-lg p-4" style="background: var(--bg-elevated)"><i class="fas fa-check-circle text-red-500 mt-0.5 text-sm"></i><span class="text-sm text-left text-justify block" style="color: var(--text-secondary)">' + f + '</span></div>'; }).join('') + '</div></div><div class="text-center"><a href="' + ai.link + '" target="_blank" rel="noopener" class="text-sm font-mono" style="color: var(--text-muted)" onmouseover="this.style.color=\'var(--red-primary)\'" onmouseout="this.style.color=\'var(--text-muted)\'"><i class="fas fa-external-link-alt mr-1"></i> Kunjungi Website Resmi</a></div></div>';
+            var logoUrl = '';
+            if (ai.domain) {
+                logoUrl = 'https://logo.clearbit.com/' + ai.domain;
+            } else if (ai.logoSlug) {
+                logoUrl = 'https://cdn.simpleicons.org/' + ai.logoSlug;
+            }
+            
+            var logoHTML = logoUrl ? '<img src="' + logoUrl + '" alt="' + ai.name + '" style="width: 100%; height: 100%; object-fit: contain;" onerror="handleLogoError(this, \'' + initial + '\', \'' + (ai.domain || '') + '\', \'' + (ai.logoSlug || '') + '\')">' : '<span class="fallback" style="color: #000000;">' + initial + '</span>';
+            
+            content.innerHTML = '<div class="p-6 sm:p-8 relative"><button onclick="closeModal(\'aiModal\')" class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: var(--bg-elevated); color: var(--text-primary)"><i class="fas fa-times"></i></button><div class="flex flex-col items-center text-center mt-4 mb-8"><div class="brand-logo-box mb-5" style="width: 72px; height: 72px; border-radius: 18px; padding: 10px;">' + logoHTML + '</div><h3 class="font-display text-2xl font-bold mb-2" style="color: var(--text-primary)">' + ai.name + '</h3><span class="text-xs font-mono px-3 py-1 rounded-full uppercase" style="background: var(--bg-elevated); color: var(--text-muted)">' + ai.category + '</span></div><div class="mb-8"><h4 class="font-semibold text-sm uppercase tracking-wider mb-4 text-center" style="color: var(--text-primary)"><i class="fas fa-list-check text-red-500 mr-2"></i>Fungsi & Kegunaan</h4><div class="space-y-3">' + ai.functions.map(function(f) { return '<div class="flex items-start gap-3 rounded-lg p-4" style="background: var(--bg-elevated)"><i class="fas fa-check-circle text-red-500 mt-0.5 text-sm"></i><span class="text-sm text-left text-justify block" style="color: var(--text-secondary)">' + f + '</span></div>'; }).join('') + '</div></div><div class="text-center"><a href="' + ai.link + '" target="_blank" rel="noopener" class="text-sm font-mono" style="color: var(--text-muted)" onmouseover="this.style.color=\'var(--red-primary)\'" onmouseout="this.style.color=\'var(--text-muted)\'"><i class="fas fa-external-link-alt mr-1"></i> Kunjungi Website Resmi</a></div></div>';
             modal.classList.remove('modal-hidden'); 
             document.body.style.overflow = 'hidden';
         }
@@ -598,7 +649,7 @@
         updateTrendingTopics();
 
         // ============================================
-        // 3. LOGIKA UI UMUM (THEME, NAV, MODAL)
+        // 4. LOGIKA UI UMUM (THEME, NAV, MODAL)
         // ============================================
         var html = document.documentElement;
         try { html.setAttribute('data-theme', localStorage.getItem('theme') || 'dark'); } catch(e) { html.setAttribute('data-theme', 'dark'); }
@@ -617,8 +668,27 @@
         }, { passive: true });
         
         document.getElementById('backToTop').addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() { document.getElementById('mobileMenu').classList.remove('modal-hidden'); });
-        document.getElementById('closeMobileMenu').addEventListener('click', function() { document.getElementById('mobileMenu').classList.add('modal-hidden'); });
+        
+        // PERBAIKAN MENU HAMBURGER
+        document.getElementById('mobileMenuBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('mobileMenu').classList.remove('modal-hidden');
+            document.getElementById('mobileMenu').classList.add('open');
+        });
+        document.getElementById('closeMobileMenu').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('mobileMenu').classList.add('modal-hidden');
+            document.getElementById('mobileMenu').classList.remove('open');
+        });
+        // Tutup menu saat klik di luar
+        document.addEventListener('click', function(e) {
+            var menu = document.getElementById('mobileMenu');
+            var btn = document.getElementById('mobileMenuBtn');
+            if (!menu.contains(e.target) && !btn.contains(e.target) && menu.classList.contains('open')) {
+                menu.classList.add('modal-hidden');
+                menu.classList.remove('open');
+            }
+        });
         
         function closeModal(id) { document.getElementById(id).classList.add('modal-hidden'); document.body.style.overflow = ''; }
         document.getElementById('aiModal').addEventListener('click', function(e) { if (e.target.id === 'aiModal') closeModal('aiModal'); });
@@ -630,7 +700,7 @@
         document.querySelectorAll('a[href^="#"]').forEach(function(anchor) { anchor.addEventListener('click', function(e) { var target = document.querySelector(this.getAttribute('href')); if (target) { e.preventDefault(); window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth' }); } }); });
 
         // ============================================
-        // 4. KONFIGURASI & LOGIKA FIREBASE REALTIME DB
+        // 5. KONFIGURASI & LOGIKA FIREBASE REALTIME DB
         // ============================================
         const firebaseConfig = {
             apiKey: "AIzaSyDqFG9tn_cBzuCK-QquG3uOBAHW0XOYId0",
@@ -712,6 +782,13 @@
             if (!db) return alert("Firebase belum diatur!");
             var nameInput = document.getElementById('userName'), input = document.getElementById('chatInput'), name = nameInput.value.trim() || 'Anonim', text = input.value.trim(); 
             if (!text) return;
+            
+            // CEK KATA KASAR
+            if (containsBadWords(text) || containsBadWords(name)) {
+                alert("Maaf, pesan Anda mengandung kata-kata yang tidak pantas, kasar, atau SARA. Mohon gunakan bahasa yang sopan dan konstruktif.");
+                return;
+            }
+            
             var colors = ['from-red-600 to-red-800','from-blue-600 to-cyan-700','from-purple-600 to-pink-700','from-green-600 to-emerald-700','from-amber-600 to-orange-700'];
             var newMsg = { userId: currentUserId, name: name, text: text, time: 'Baru saja', color: colors[Math.floor(Math.random()*colors.length)], timestamp: Date.now() };
             
@@ -740,7 +817,19 @@
         function createProject(event) {
             event.preventDefault(); 
             if (!db) return alert("Firebase belum diatur!");
-            var newProject = { userId: currentUserId, title: document.getElementById('projName').value, category: document.getElementById('projCat').value, description: document.getElementById('projDesc').value, whatsapp: document.getElementById('projWA').value.replace(/\D/g, ''), leader: document.getElementById('projLeader').value, members: 1, maxMembers: parseInt(document.getElementById('projMembers').value), skills: document.getElementById('projSkills').value.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; }), status: 'Recruiting', progress: 5, timestamp: Date.now() };
+            
+            var title = document.getElementById('projName').value;
+            var desc = document.getElementById('projDesc').value;
+            var leader = document.getElementById('projLeader').value;
+            var skills = document.getElementById('projSkills').value;
+            
+            // CEK KATA KASAR DI PROJECT
+            if (containsBadWords(title) || containsBadWords(desc) || containsBadWords(leader) || containsBadWords(skills)) {
+                alert("Maaf, data project mengandung kata-kata yang tidak pantas, kasar, atau SARA. Mohon gunakan bahasa yang sopan.");
+                return;
+            }
+            
+            var newProject = { userId: currentUserId, title: title, category: document.getElementById('projCat').value, description: desc, whatsapp: document.getElementById('projWA').value.replace(/\D/g, ''), leader: leader, members: 1, maxMembers: parseInt(document.getElementById('projMembers').value), skills: skills.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; }), status: 'Recruiting', progress: 5, timestamp: Date.now() };
             
             db.ref('projects').push(newProject);
             closeCreateProject(); event.target.reset();
